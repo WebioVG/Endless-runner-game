@@ -1,9 +1,11 @@
+/** @type {HTMLCanvasElement} */
+
 // Initialize canvas
 const canvas = document.querySelector('#canvas1');
 const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 600;
 const CANVAS_HEIGHT = canvas.height = 600;
-let gameSpeed = 4;
+let gameSpeed = 5;
 
 ////////////
 // PLAYER //
@@ -36,47 +38,18 @@ let gameFrame= 0;
 const staggerFrames = 6;
 const spriteAnimations = [];
 const animationStates = [
-    {
-        name: 'idle',
-        frames: 7,
-    },
-    {
-        name: 'jump',
-        frames: 7,
-    },
-    {
-        name: 'fall',
-        frames: 7,
-    },
-    {
-        name: 'run',
-        frames: 9,
-    },
-    {
-        name: 'dizzy',
-        frames: 11,
-    },
-    {
-        name: 'sit',
-        frames: 5,
-    },
-    {
-        name: 'roll',
-        frames: 7,
-    },
-    {
-        name: 'bite',
-        frames: 7,
-    },
-    {
-        name: 'ko',
-        frames: 12,
-    },
-    {
-        name: 'getHit',
-        frames: 4,
-    }
+    { name: 'idle', frames: 7, },
+    { name: 'jump', frames: 7, },
+    { name: 'fall', frames: 7, },
+    { name: 'run', frames: 9, },
+    { name: 'dizzy', frames: 11, },
+    { name: 'sit', frames: 5, },
+    { name: 'roll', frames: 7, },
+    { name: 'bite', frames: 7, },
+    { name: 'ko', frames: 12, },
+    { name: 'getHit', frames: 4, }
 ];
+
 // Index each sprite animation positions
 animationStates.forEach((state, index) => {
     let frames = {
@@ -119,7 +92,6 @@ class Layer {
     }
 }
 
-
 // Create the different background layers
 backgroundLayer1 = new Image();
 backgroundLayer1.src = 'img/backgroundLayers/layer-1.png';
@@ -140,6 +112,44 @@ const layer5 = new Layer(backgroundLayer5, 1);
 
 const gameObjects = [layer1, layer2, layer3, layer4, layer5];
 
+//////////////
+// ENNEMIES //
+//////////////
+
+class Enemy_bat {
+    constructor() {
+        this.image = new Image();
+        this.image.src = 'img/enemies/enemy1.png';
+        this.spriteWidth = 293;
+        this.spriteHeight = 155;
+        this.width = this.spriteWidth / 2.5;
+        this.height = this.spriteHeight / 2.5;
+        this.x = Math.random() * (canvas.width - this.width);
+        this.y = Math.random() * (canvas.height - this.height - 150);
+        this.frame = 0;
+        this.flapSpeed = Math.floor(Math.random() * 3 + 1);
+    }
+
+    update() {
+        this.x += Math.random() * 5 - 2.5;
+        this.y += Math.random() * 5 - 2.5;
+
+        if (gameFrame % this.flapSpeed === 0) {
+            this.frame > 4 ? this.frame = 0 : this.frame++;
+        }
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
+
+const numberOfEnemies = 5;
+let enemiesArray = [];
+for (i = 0; i < numberOfEnemies; i++) {
+    enemiesArray.push(new Enemy_bat());
+}
+
 //////////
 // MAIN //
 //////////
@@ -156,6 +166,11 @@ function animate() {
         layer.draw();
     });
 
+    enemiesArray.forEach(enemy => {
+        enemy.update();
+        enemy.draw();
+    });
+    
     ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 100, 400, 100, 100);
 
     gameFrame++;

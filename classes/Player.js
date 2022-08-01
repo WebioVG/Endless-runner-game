@@ -43,7 +43,7 @@ export default class Player {
         } else {
             this.frameTimer += deltaTime;
         }
-        context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y + 300, this.width/4, this.height/4);
+        context.drawImage(this.image, this.width * this.frameX, this.height * this.frameY, this.width, this.height, this.x, this.y + 340, this.width/6, this.height/6);
     }
 
     update(input) {
@@ -51,7 +51,7 @@ export default class Player {
 
         this.x += this.speed;
         if (this.x <= 0) this.x = 0;
-        else if (this.x >= this.gameWidth - this.width/4) this.x = this.gameWidth - this.width;
+        else if (this.x >= this.gameWidth - this.width/6) this.x = this.gameWidth - this.width;
 
         this.y += this.vy;
         if (!this.onGround()) {

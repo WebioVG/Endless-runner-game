@@ -119,28 +119,24 @@ const gameObjects = [layer1, layer2, layer3, layer4, layer5];
 let enemiesArray = [
     {
         name: 'enemy1',
-        framesPlayed: 5,
         numberOfEnemies: 1,
         numberOfFramesInSpritesheet: 6,
         enemiesArray: []
     },
     {
         name: 'enemy2',
-        framesPlayed: 5,
-        numberOfEnemies: 5,
+        numberOfEnemies: 1,
         numberOfFramesInSpritesheet: 6,
         enemiesArray: []
     },
     {
         name: 'enemy3',
-        framesPlayed: 5,
-        numberOfEnemies: 0,
+        numberOfEnemies: 5,
         numberOfFramesInSpritesheet: 6,
         enemiesArray: []
     },
     {
         name: 'enemy4',
-        framesPlayed: 5,
         numberOfEnemies: 0,
         numberOfFramesInSpritesheet: 9,
         enemiesArray: []
@@ -158,12 +154,13 @@ class Enemy1 {
         this.x = Math.random() * (canvas.width - this.width);
         this.y = Math.random() * (canvas.height - this.height - 150);
         this.frame = 0;
+        this.framesPlayed = 5;
         this.flapSpeed = Math.floor(Math.random() * 3 + 1);
     }
 
     update() {
-        this.x += Math.random() * enemiesArray[0].framesPlayed - (enemiesArray[0].framesPlayed * 0.5);
-        this.y += Math.random() * enemiesArray[0].framesPlayed - (enemiesArray[0].framesPlayed * 0.5);
+        this.x += Math.random() * this.framesPlayed - (this.framesPlayed * 0.5);
+        this.y += Math.random() * this.framesPlayed - (this.framesPlayed * 0.5);
 
         if (gameFrame % this.flapSpeed === 0) {
             this.frame > enemiesArray[0].numberOfFramesInSpritesheet - 2 ? this.frame = 0 : this.frame++;
@@ -210,13 +207,48 @@ class Enemy2 {
     }
 }
 
+class Enemy3 {
+    constructor() {
+        this.image = new Image();
+        this.image.src = 'img/enemies/enemy3.png';
+        this.speed = Math.random() * 4 + 1;
+        this.spriteWidth = 218;
+        this.spriteHeight = 177;
+        this.width = this.spriteWidth / 2.5;
+        this.height = this.spriteHeight / 2.5;
+        this.x = Math.random() * (canvas.width - this.width);
+        this.y = Math.random() * (canvas.height - this.height - 150);
+        this.frame = 0;
+        this.flapSpeed = Math.floor(Math.random() * 3 + 1);
+        this.angle = Math.random() * 500;
+        this.angleSpeed = Math.random() * 0.8 + 0.3;
+        this.curve = Math.random() * 200 + 50;
+    }
+
+    update() {
+        this.x = canvas.width/3 * Math.sin(this.angle * Math.PI / 90) + canvas.width/2 - this.width/2;
+        this.y = canvas.height/6 * Math.cos(this.angle * Math.PI / 360) + canvas.height/2 - this.height/2 - 150;
+        this.angle += this.angleSpeed;
+
+        if (this.x + this.width < 0) this.x = canvas.width;
+
+        if (gameFrame % this.flapSpeed === 0) {
+            this.frame > enemiesArray[1].numberOfFramesInSpritesheet - 2 ? this.frame = 0 : this.frame++;
+        }
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
+}
+
 // Fill enemiesArray with all enemies instances
 enemiesArray.forEach(enemy => {
     for (i = 0; i < enemy.numberOfEnemies; i++) {
         switch (enemy.name) {
             case 'enemy1': enemy.enemiesArray.push(new Enemy1()); break;
             case 'enemy2': enemy.enemiesArray.push(new Enemy2()); break;
-            // case 'enemy3': enemy.enemiesArray.push(new Enemy3()); break;
+            case 'enemy3': enemy.enemiesArray.push(new Enemy3()); break;
             // case 'enemy4': enemy.enemiesArray.push(new Enemy4()); break;
             default: console.log('Error during the filling of enemiesArray variable (enemies instanciations)'); break;
         }

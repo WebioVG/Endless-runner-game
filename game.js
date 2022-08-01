@@ -12,7 +12,6 @@ const canvas = document.querySelector('#canvas1');
 const ctx = canvas.getContext('2d');
 const CANVAS_WIDTH = canvas.width = 600;
 const CANVAS_HEIGHT = canvas.height = 600;
-const input = new InputHandler();
 
 /////////////////////
 // GAME PARAMETERS //
@@ -25,12 +24,13 @@ let gameFrame= 0;
 // BACKGROUND LAYERS //
 ///////////////////////
 
-const layer1 = new Layer('img/backgroundLayers/layer-1.png', 0.2, gameSpeed);
-const layer2 = new Layer('img/backgroundLayers/layer-2.png', 0.4, gameSpeed);
-const layer3 = new Layer('img/backgroundLayers/layer-3.png', 0.6, gameSpeed);
-const layer4 = new Layer('img/backgroundLayers/layer-4.png', 0.8, gameSpeed);
-const layer5 = new Layer('img/backgroundLayers/layer-5.png', 1, gameSpeed);
-const gameLayers = [layer1, layer2, layer3, layer4, layer5];
+const gameLayers = [
+    new Layer('img/backgroundLayers/layer-1.png', 0.2, gameSpeed),
+    new Layer('img/backgroundLayers/layer-2.png', 0.4, gameSpeed),
+    new Layer('img/backgroundLayers/layer-3.png', 0.6, gameSpeed),
+    new Layer('img/backgroundLayers/layer-4.png', 0.8, gameSpeed),
+    new Layer('img/backgroundLayers/layer-5.png', 1, gameSpeed)
+];
 
 //////////////
 // ENNEMIES //
@@ -219,6 +219,7 @@ enemiesArray.forEach(enemy => {
 // MAIN //
 //////////
 
+const input = new InputHandler();
 const player1 = new Player(600, 600);
 let lastTime = 0;
 

@@ -116,7 +116,38 @@ const gameObjects = [layer1, layer2, layer3, layer4, layer5];
 // ENNEMIES //
 //////////////
 
-class Enemy_bat {
+let enemiesArray = [
+    {
+        name: 'enemy1',
+        framesPlayed: 5,
+        numberOfEnemies: 1,
+        numberOfFramesInSpritesheet: 6,
+        enemiesArray: []
+    },
+    {
+        name: 'enemy2',
+        framesPlayed: 5,
+        numberOfEnemies: 5,
+        numberOfFramesInSpritesheet: 6,
+        enemiesArray: []
+    },
+    {
+        name: 'enemy3',
+        framesPlayed: 5,
+        numberOfEnemies: 0,
+        numberOfFramesInSpritesheet: 6,
+        enemiesArray: []
+    },
+    {
+        name: 'enemy4',
+        framesPlayed: 5,
+        numberOfEnemies: 0,
+        numberOfFramesInSpritesheet: 9,
+        enemiesArray: []
+    },
+];
+
+class Enemy1 {
     constructor() {
         this.image = new Image();
         this.image.src = 'img/enemies/enemy1.png';
@@ -131,11 +162,11 @@ class Enemy_bat {
     }
 
     update() {
-        this.x += Math.random() * 5 - 2.5;
-        this.y += Math.random() * 5 - 2.5;
+        this.x += Math.random() * enemiesArray[0].framesPlayed - (enemiesArray[0].framesPlayed * 0.5);
+        this.y += Math.random() * enemiesArray[0].framesPlayed - (enemiesArray[0].framesPlayed * 0.5);
 
         if (gameFrame % this.flapSpeed === 0) {
-            this.frame > 4 ? this.frame = 0 : this.frame++;
+            this.frame > enemiesArray[0].numberOfFramesInSpritesheet - 2 ? this.frame = 0 : this.frame++;
         }
     }
 
@@ -144,11 +175,53 @@ class Enemy_bat {
     }
 }
 
-const numberOfEnemies = 5;
-let enemiesArray = [];
-for (i = 0; i < numberOfEnemies; i++) {
-    enemiesArray.push(new Enemy_bat());
+class Enemy2 {
+    constructor() {
+        this.image = new Image();
+        this.image.src = 'img/enemies/enemy2.png';
+        this.speed = Math.random() * 4 + 1;
+        this.spriteWidth = 266;
+        this.spriteHeight = 188;
+        this.width = this.spriteWidth / 2.5;
+        this.height = this.spriteHeight / 2.5;
+        this.x = Math.random() * (canvas.width - this.width);
+        this.y = Math.random() * (canvas.height - this.height - 150);
+        this.frame = 0;
+        this.flapSpeed = Math.floor(Math.random() * 3 + 1);
+        this.angle = 0;
+        this.angleSpeed = Math.random() * 0.2;
+        this.curve = Math.random() * 3 + 1;
+    }
+
+    update() {
+        this.x -= this.speed;
+        this.y += this.curve * Math.sin(this.angle);
+        this.angle += this.angleSpeed;
+
+        if (this.x + this.width < 0) this.x = canvas.width;
+
+        if (gameFrame % this.flapSpeed === 0) {
+            this.frame > enemiesArray[1].numberOfFramesInSpritesheet - 2 ? this.frame = 0 : this.frame++;
+        }
+    }
+
+    draw() {
+        ctx.drawImage(this.image, this.frame * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    }
 }
+
+// Fill enemiesArray with all enemies instances
+enemiesArray.forEach(enemy => {
+    for (i = 0; i < enemy.numberOfEnemies; i++) {
+        switch (enemy.name) {
+            case 'enemy1': enemy.enemiesArray.push(new Enemy1()); break;
+            case 'enemy2': enemy.enemiesArray.push(new Enemy2()); break;
+            // case 'enemy3': enemy.enemiesArray.push(new Enemy3()); break;
+            // case 'enemy4': enemy.enemiesArray.push(new Enemy4()); break;
+            default: console.log('Error during the filling of enemiesArray variable (enemies instanciations)'); break;
+        }
+    }
+});
 
 //////////
 // MAIN //
@@ -167,8 +240,10 @@ function animate() {
     });
 
     enemiesArray.forEach(enemy => {
-        enemy.update();
-        enemy.draw();
+        enemy.enemiesArray.forEach(enemy => {
+            enemy.update();
+            enemy.draw();
+        });
     });
     
     ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 100, 400, 100, 100);

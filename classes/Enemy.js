@@ -127,7 +127,7 @@ export class Worm extends GroundEnemy {
         this.y -= this.height;
         this.maxFrame = 5;
         this.image = enemy_worm;
-        this.vx = Math.random() * 0.08 + 0.03;
+        this.vx = Math.random() * (0.12 - 0.03) + 0.03;
     }
 
     update(deltaTime) {
@@ -160,7 +160,9 @@ export class Spider extends ClimbingEnemy {
         this.image = enemy_spider;
         this.vx = 0;
         this.vy = Math.random() * 0.1 + 0.1;
-        this.maxLength = Math.random() * (this.game.height * 0.45) + this.game.height * 0.2;
+        this.maxLengthMinimum = this.game.height * 0.15;
+        this.maxLengthMaximum = this.game.height * 0.35;
+        this.maxLength = Math.random() * (this.maxLengthMaximum - this.maxLengthMinimum) + this.maxLengthMinimum;
     }
 
     update(deltaTime) {

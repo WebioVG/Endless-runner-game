@@ -138,6 +138,25 @@ export class Worm extends GroundEnemy {
     }
 }
 
+export class Plant extends GroundEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 60;
+        this.spriteHeight = 87;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.y -= this.height;
+        this.maxFrame = 1;
+        this.image = enemy_plant;
+    }
+    update(deltaTime) {
+        // Horizontal movement
+        this.x -= this.game.speed;
+
+        super.update(deltaTime);
+    }
+}
+
 //////////////////////
 // CLIMBING ENEMIES //
 //////////////////////
@@ -171,18 +190,18 @@ export class Spider extends ClimbingEnemy {
         if (this.y > this.maxLength) this.vy *= -1;
 
         // Check if the enemy is off screen
-        if (this.y < 0 - this.height * 2) this.markedForDeletion = true;
+        if (this.y < 0 - this.height) this.markedForDeletion = true;
 
         super.update(deltaTime);
     }
 
-    draw(ctx) {
+    draw() {
         // Spider web
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width/2, 0);
-        ctx.lineTo(this.x + this.width/2, this.y + 10);
-        ctx.stroke();
+        this.game.ctx.beginPath();
+        this.game.ctx.moveTo(this.x + this.width * 0.5, 0);
+        this.game.ctx.lineTo(this.x + this.width * 0.5, this.y + 10);
+        this.game.ctx.stroke();
 
-        super.draw(ctx);
+        super.draw(this.game.ctx);
     }
 }

@@ -2,6 +2,7 @@ import { Fly, Ghost, Plant, Spider, Worm } from "./Enemy.js";
 import InputHandler from "./Input.js";
 import Background from "./Layer.js";
 import Player from "./player.js";
+import { UI } from "./UI.js";
 
 export default class Game {
     constructor(ctx, width, height) {
@@ -14,11 +15,14 @@ export default class Game {
         this.background = new Background(this);
         this.player = new Player(this);
         this.input = new InputHandler(this);
+        this.UI = new UI(this);
         this.enemies = [];
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
+        this.score = 0;
         this.debug = false;
+        this.fontColor = 'black';
     }
 
     update(deltaTime) {
@@ -37,10 +41,9 @@ export default class Game {
 
     draw() {
         this.background.draw(this.ctx);
-        
         this.enemies.forEach(object => object.draw(this.ctx));
-
         this.player.draw();
+        this.UI.draw();
     }
 
     #addNewEnemy() {

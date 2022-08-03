@@ -20,7 +20,6 @@ export default class Player {
         this.maxSpeed = 5;
         this.states = [ new Sitting(this), new Running(this), new Jumping(this), new Falling(this) ];
         this.currentState = this.states[0];
-        this.score = 0;
     }
 
     update(input, deltaTime) {
@@ -78,8 +77,7 @@ export default class Player {
                 enemy.markedForDeletion = true;
                 this.game.score++;
             } else {
-                if (this.game.score <= 0) this.game.score = 0;
-                else this.game.score--;
+                
             }
         });
     }

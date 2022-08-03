@@ -24,8 +24,8 @@ class Enemy {
         }
     }
 
-    draw(ctx) {
-        ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
+    draw() {
+        this.game.ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -110,32 +110,40 @@ export class Fly extends FlyingEnemy {
 ////////////////////
 
 class GroundEnemy extends Enemy {
-    construtor(){
-        
+    constructor(game){
+        super(game);
+        this.x = this.game.width + Math.random() * this.game.width * 0.5;
+        this.y = this.game.height - this.game.groundMargin;
     }
 }
 
-// export class Worm extends Enemy {
-//     constructor(game) {
-//         super(game);
-//         this.spriteWidth = 229;
-//         this.spriteHeight = 171;
-//         this.width = this.spriteWidth / 2;
-//         this.height = this.spriteHeight / 2;
-//         this.x = this.game.width;
-//         this.y = this.game.height - this.height - 100;
-//         this.image = new Image();
-//         this.image.src = '../img/enemies/enemy_worm.png';
-//         this.vx = Math.random() * 0.1 + 0.1;
-//     }
-// }
+export class Worm extends GroundEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 80;
+        this.spriteHeight = 60;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.y -= this.height;
+        this.maxFrame = 5;
+        this.image = enemy_worm;
+        this.vx = Math.random() * 0.08 + 0.03;
+    }
+
+    update(deltaTime) {
+        // Horizontal movement
+        this.x -= this.vx * deltaTime + this.game.speed;
+        
+        super.update(deltaTime);
+    }
+}
 
 //////////////////////
 // CLIMBING ENEMIES //
 //////////////////////
 
 class ClimbingEnemy extends Enemy {
-    construtor(){
+    constructor(){
         
     }
 }

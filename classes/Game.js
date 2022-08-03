@@ -1,6 +1,6 @@
-import { Ghost, Spider, Worm } from "./Enemy.js";
+import { Fly, Ghost } from "./Enemy.js";
 import InputHandler from "./Input.js";
-import { Background } from "./Layer.js";
+import Background from "./Layer.js";
 import Player from "./player.js";
 
 export default class Game {
@@ -17,7 +17,7 @@ export default class Game {
         this.enemies = [];
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
-        this.enemyTypes = ['worm', 'ghost', 'spider'];
+        this.enemyTypes = ['ghost', 'fly'];
     }
 
     update(deltaTime) {
@@ -44,9 +44,8 @@ export default class Game {
 
     #addNewEnemy() {
         const randomEnemy = this.enemyTypes[Math.round(Math.random() * this.enemyTypes.length)];
-        if (randomEnemy === 'worm') this.enemies.push(new Worm(this));
+        if (randomEnemy === 'fly') this.enemies.push(new Fly(this));
         else if (randomEnemy === 'ghost') this.enemies.push(new Ghost(this));
-        else if (randomEnemy === 'spider') this.enemies.push(new Spider(this));
 
         this.enemies.sort((a, b) => {
             return a.y - b.y;

@@ -1,17 +1,20 @@
-export default class Enemy {
+class Enemy {
     constructor(game) {
         this.game = game;
         this.markedForDeletion = false;
-        this.frameX;
+        this.frameX = 0;
+        this.frameY = 0;
         this.maxFrame = 5;
-        this.frameInterval = 100;
+        this.fps = 20;
+        this.frameInterval = 1000/this.fps;
         this.frameTimer = 0;
     }
 
     update(deltaTime) {
-        this.x -= this.vx * deltaTime;
+        // Check if the enemy is off screen
+        if (this.x < 0 - this.width) {this.markedForDeletion = true; return;};
 
-        if (this.x < 0 - this.width) this.markedForDeletion = true;
+        // Sprite animation
         if (this.frameTimer > this. frameInterval) {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = 0;
@@ -26,80 +29,146 @@ export default class Enemy {
     }
 }
 
-export class Worm extends Enemy {
+////////////////////
+// FLYING ENEMIES //
+////////////////////
+
+class FlyingEnemy extends Enemy {
     constructor(game) {
         super(game);
-        this.spriteWidth = 229;
-        this.spriteHeight = 171;
-        this.width = this.spriteWidth / 2;
-        this.height = this.spriteHeight / 2;
-        this.x = this.game.width;
-        this.y = this.game.height - this.height - 100;
-        this.image = new Image();
-        this.image.src = '../img/enemies/enemy_worm.png';
-        this.vx = Math.random() * 0.1 + 0.1;
+        this.x = this.game.width + Math.random() * this.game.width * 0.5;
+        this.y = Math.random() * this.game.height * 0.4;
     }
 }
 
-export class Ghost extends Enemy {
+export class Ghost extends FlyingEnemy {
     constructor(game) {
         super(game);
-        this.spriteWidth = 261;
-        this.spriteHeight = 209;
-        this.width = this.spriteWidth / 2;
-        this.height = this.spriteHeight / 2;
-        this.x = this.game.width;
-        this.y = Math.random() * this.game.height * 0.6;
-        this.image = new Image();
-        this.image.src = '../img/enemies/enemy_ghost.png';
-        this.vx = Math.random() * 0.2 + 0.1;
+        this.spriteWidth = 87;
+        this.spriteHeight = 70;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.maxFrame = 5;
+        this.image = enemy_ghost_3;
+        this.vx = Math.random() * 0.12 + 0.07;
         this.angle = 0;
-        this.curve = Math.random() * 3 + 0.5;
+        this.va = Math.random() * 0.04 + 0.02;
+        this.curve = Math.random() * 2 + 0.5;
     }
 
     update(deltaTime) {
-        super.update(deltaTime);
+        // Horizontal movement
+        this.x -= this.vx * deltaTime + this.game.speed;
+
+        // Vertical movement
+        this.angle += this.va;
         this.y += Math.sin(this.angle) * this.curve;
-        this.angle += 0.04;
+        
+        super.update(deltaTime);
     }
 
-    draw(ctx) {
-        ctx.save();
-        ctx.globalAlpha = 0.7;
-        super.draw(ctx);
-        ctx.restore();
+    draw() {
+        // Add transparency to the ghost
+        this.game.ctx.save();
+        this.game.ctx.globalAlpha = 0.7;
+
+        super.draw(this.game.ctx);
+
+        this.game.ctx.restore();
     }
 }
 
-export class Spider extends Enemy {
-    constructor(game) {
+export class Fly extends FlyingEnemy {
+    constructor(game){
         super(game);
-        this.spriteWidth = 310;
-        this.spriteHeight = 175;
-        this.width = this.spriteWidth / 2;
-        this.height = this.spriteHeight / 2;
-        this.x = Math.random() * this.game.width;
-        this.y = 0 - this.height;
-        this.image = new Image();
-        this.image.src = '../img/enemies/enemy_spider.png';
-        this.vx = 0;
-        this.vy = Math.random() * 0.1 + 0.1;
-        this.maxLength = Math.random() * (this.game.height - 200);
+        this.spriteWidth = 60;
+        this.spriteHeight = 44;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.image = enemy_fly;
+        this.speedX = Math.random() + 1;
+        this.speedY = 0;
+        this.maxFrame = 5;
+        this.angle = 0;
+        this.va = Math.random() * 0.01 + 0.03;
     }
 
     update(deltaTime) {
+        // Horizontal Movement
+        this.x -= this.speedX + this.game.speed;
+
+        // Vertical movement
+        this.angle += this.va;
+        this.y += Math.sin(this.angle);
+
         super.update(deltaTime);
-        if (this.y < 0 - this.height * 2) this.markedForDeletion = true;
-        this.y += this.vy * deltaTime;
-        if (this.y > this.maxLength) this.vy *= -1;
-    }
-
-    draw(ctx) {
-        ctx.beginPath();
-        ctx.moveTo(this.x + this.width/2, 0);
-        ctx.lineTo(this.x + this.width/2, this.y + 10);
-        ctx.stroke();
-
-        super.draw(ctx);
     }
 }
+
+////////////////////
+// GROUND ENEMIES //
+////////////////////
+
+class GroundEnemy extends Enemy {
+    construtor(){
+        
+    }
+}
+
+// export class Worm extends Enemy {
+//     constructor(game) {
+//         super(game);
+//         this.spriteWidth = 229;
+//         this.spriteHeight = 171;
+//         this.width = this.spriteWidth / 2;
+//         this.height = this.spriteHeight / 2;
+//         this.x = this.game.width;
+//         this.y = this.game.height - this.height - 100;
+//         this.image = new Image();
+//         this.image.src = '../img/enemies/enemy_worm.png';
+//         this.vx = Math.random() * 0.1 + 0.1;
+//     }
+// }
+
+//////////////////////
+// CLIMBING ENEMIES //
+//////////////////////
+
+class ClimbingEnemy extends Enemy {
+    construtor(){
+        
+    }
+}
+
+// export class Spider extends Enemy {
+//     constructor(game) {
+//         super(game);
+//         this.spriteWidth = 310;
+//         this.spriteHeight = 175;
+//         this.width = this.spriteWidth / 2;
+//         this.height = this.spriteHeight / 2;
+//         this.x = Math.random() * this.game.width;
+//         this.y = 0 - this.height;
+//         this.image = new Image();
+//         this.image.src = '../img/enemies/enemy_spider.png';
+//         this.vx = 0;
+//         this.vy = Math.random() * 0.1 + 0.1;
+//         this.maxLength = Math.random() * (this.game.height - 200);
+//     }
+
+//     update(deltaTime) {
+//         super.update(deltaTime);
+//         if (this.y < 0 - this.height * 2) this.markedForDeletion = true;
+//         this.y += this.vy * deltaTime;
+//         if (this.y > this.maxLength) this.vy *= -1;
+//     }
+
+//     draw(ctx) {
+//         ctx.beginPath();
+//         ctx.moveTo(this.x + this.width/2, 0);
+//         ctx.lineTo(this.x + this.width/2, this.y + 10);
+//         ctx.stroke();
+
+//         super.draw(ctx);
+//     }
+// }

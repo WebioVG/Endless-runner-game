@@ -25,6 +25,8 @@ class Enemy {
     }
 
     draw() {
+        if (this.game.debug) this.game.ctx.strokeRect(this.x, this.y, this.width, this.height);
+
         this.game.ctx.drawImage(this.image, this.frameX * this.spriteWidth, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
     }
 }

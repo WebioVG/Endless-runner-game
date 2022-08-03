@@ -50,6 +50,8 @@ export default class Player {
     }
 
     draw() {
+        if (this.game.debug) this.game.ctx.strokeRect(this.x, this.y, this.width, this.height);
+        
         this.game.ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 

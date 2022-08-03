@@ -13,11 +13,12 @@ export default class Game {
         this.maxSpeed = 3;
         this.background = new Background(this);
         this.player = new Player(this);
-        this.input = new InputHandler();
+        this.input = new InputHandler(this);
         this.enemies = [];
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
+        this.debug = false;
     }
 
     update(deltaTime) {

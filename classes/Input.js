@@ -1,20 +1,25 @@
 export default class InputHandler {
     constructor() {
-        this.lastKey = '';
+        this.keys = [];
+        
         window.addEventListener('keydown', e => {
-            switch (e.key) {
-                case 'ArrowUp': this.lastKey = 'PRESS up'; break;
-                case 'ArrowRight': this.lastKey = 'PRESS right'; break;
-                case 'ArrowDown': this.lastKey = 'PRESS down'; break;
-                case 'ArrowLeft': this.lastKey = 'PRESS left'; break;
+            if ((   e.key === 'ArrowUp' ||
+                    e.key === 'ArrowRight' ||
+                    e.key === 'ArrowDown' ||
+                    e.key === 'ArrowLeft' ||
+                    e.key === 'Enter'
+                ) && this.keys.indexOf(e.key) === -1) {
+                this.keys.push(e.key);
             }
         });
         window.addEventListener('keyup', e => {
-            switch (e.key) {
-                case 'ArrowUp': this.lastKey = 'RELEASE up'; break;
-                case 'ArrowRight': this.lastKey = 'RELEASE right'; break;
-                case 'ArrowDown': this.lastKey = 'RELEASE down'; break;
-                case 'ArrowLeft': this.lastKey = 'RELEASE left'; break;
+            if ((   e.key === 'ArrowUp' ||
+                    e.key === 'ArrowRight' ||
+                    e.key === 'ArrowDown' ||
+                    e.key === 'ArrowLeft' ||
+                    e.key === 'Enter'
+                ) && this.keys.indexOf(e.key) !== -1) {
+                this.keys.splice(this.keys.indexOf(e.key), 1);
             }
         });
     }

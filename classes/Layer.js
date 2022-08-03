@@ -1,25 +1,53 @@
-export default class Layer {
-    constructor(imageSrc, speedModifier, gameSpeed) {
+class Layer {
+    constructor(game, width, height, speedModifier, image) {
+        this.game = game;
+        this.width = width;
+        this.height = height;
         this.x = 0;
         this.y = 0;
-        this.width = 2400;
-        this.height = 600;
-        this.image = new Image();
-        this.image.src = imageSrc;
+        this.image = image;
         this.speedModifier = speedModifier;
-        this.speed = gameSpeed * this.speedModifier;
+        this.speed = this.game.speed * this.speedModifier;
     }
 
-    update(gameSpeed) {
-        this.speed = gameSpeed * this.speedModifier;
-        if (this.x <= -this.width) {
-            this.x = 0;
-        }
-        this.x = Math.floor(this.x - this.speed);
+    update() {
+        if (this.x <= -this.width) this.x = 0;
+        else this.x -= this.game.speed * this.speedModifier;
     }
 
     draw(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.height);
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.game.height);
+        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.game.height);
+    }
+}
+
+export class Background {
+    constructor(game) {
+        this.game = game;
+        this.width = 1667;
+        this.height = 500;
+        this.layer1image = layer1;
+        this.layer2image = layer2;
+        this.layer3image = layer3;
+        this.layer4image = layer4;
+        this.layer5image = layer5;
+        this.layer1 = new Layer(this.game, this.width, this.height, 0.1, this.layer1image);
+        this.layer2 = new Layer(this.game, this.width, this.height, 0.2, this.layer2image);
+        this.layer3 = new Layer(this.game, this.width, this.height, 0.4, this.layer3image);
+        this.layer4 = new Layer(this.game, this.width, this.height, 0.8, this.layer4image);
+        this.layer5 = new Layer(this.game, this.width, this.height, 1, this.layer5image);
+        this.backroundLayers = [ this.layer1, this.layer2, this.layer3, this.layer4, this.layer5 ];
+    }
+
+    update() {
+        this.backroundLayers.forEach(layer => {
+            layer.update();
+        })
+    }
+
+    draw(ctx) {
+        this.backroundLayers.forEach(layer => {
+            layer.draw(ctx);
+        })
     }
 }

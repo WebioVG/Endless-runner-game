@@ -20,9 +20,11 @@ export default class Player {
         this.maxSpeed = 5;
         this.states = [ new Sitting(this), new Running(this), new Jumping(this), new Falling(this) ];
         this.currentState = this.states[0];
+        this.score = 0;
     }
 
     update(input, deltaTime) {
+        this.checkCollision();
         this.currentState.handleInput(input);
 
         // horizontal movement
@@ -51,7 +53,7 @@ export default class Player {
 
     draw() {
         if (this.game.debug) this.game.ctx.strokeRect(this.x, this.y, this.width, this.height);
-        
+
         this.game.ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
@@ -63,5 +65,22 @@ export default class Player {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
+    }
+
+    checkCollision() {
+        this.game.enemies.forEach(enemy => {
+            if (
+                enemy.x < this.x + this.width &&
+                enemy.x + enemy.width > this.x && 
+                enemy.y < this.y + this.height && 
+                enemy.y + enemy.height > this.y
+            ) {
+                enemy.markedForDeletion = true;
+                this.game.score++;
+            } else {
+                if (this.game.score <= 0) this.game.score = 0;
+                else this.game.score--;
+            }
+        });
     }
 }

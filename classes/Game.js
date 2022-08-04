@@ -10,7 +10,7 @@ export default class Game {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
-        this.groundMargin = 80;
+        this.groundMargin = 40;
         this.fontColor = 'black';
 
         // Features
@@ -34,6 +34,7 @@ export default class Game {
         this.enemyTimer = 0;
         this.time = 0;
         this.maxTime = 10000;
+        this.timeLeft = this.maxTime - this.time;
         this.gameOver = false;
 
         // Outputs
@@ -43,6 +44,8 @@ export default class Game {
     update(deltaTime) {
         // Time
         this.time += deltaTime;
+        if (this.timeLeft > deltaTime) this.timeLeft -= deltaTime;
+        else this.timeLeft = 0;
         if (this.time > this.maxTime) this.gameOver = true;
 
         // Background

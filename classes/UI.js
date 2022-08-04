@@ -20,7 +20,7 @@ export class UI {
         this.game.ctx.fillText(`Score: ${this.game.score}`, 20, 50);
         // Timer
         this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
-        this.game.ctx.fillText(`Time: ${(this.game.time * 0.001).toFixed(1)}s`, 20, 80);
+        this.game.ctx.fillText(`Time left: ${(this.game.timeLeft * 0.001).toFixed(1)}s`, 20, 80);
         // Game Over
         if (this.game.gameOver) {
             this.game.ctx.textAlign = 'center';

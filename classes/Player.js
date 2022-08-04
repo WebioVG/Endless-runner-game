@@ -29,8 +29,8 @@ export default class Player {
 
         // Horizontal movement
         this.x += this.speed;
-        if (input.includes('ArrowRight')) this.speed = this.maxSpeed;
-        else if (input.includes('ArrowLeft')) this.speed = -this.maxSpeed;
+        if (input.includes('ArrowRight') && !(this.currentState instanceof Hit)) this.speed = this.maxSpeed;
+        else if (input.includes('ArrowLeft') && !(this.currentState instanceof Hit)) this.speed = -this.maxSpeed;
         else this.speed = 0;
         // Horizontal boundaries
         if (this.x < 0) this.x = 0;

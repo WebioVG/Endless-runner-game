@@ -62,7 +62,7 @@ export default class Game {
             particle.update();
             if (particle.markedForDeletion) this.particles.splice(index, 1);
         });
-        if (this.particles.length > this.maxParticles) this.particles = this.particles.slice(0, this.maxParticles);
+        if (this.particles.length > this.maxParticles) this.particles.length = this.maxParticles;
 
         // Collisions
         this.collisions.forEach((collision, index) => {

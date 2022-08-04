@@ -16,8 +16,8 @@ class Layer {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.game.height);
-        ctx.drawImage(this.image, this.x + this.width, this.y, this.width, this.game.height);
+        ctx.drawImage(this.image, 0, 0, this.width, this.height, this.x, this.y, this.width, this.game.height);
+        ctx.drawImage(this.image, 0, 0, this.width, this.height, this.x + this.width, this.y, this.width, this.game.height);
     }
 }
 
@@ -26,16 +26,11 @@ export default class Background {
         this.game = game;
         this.width = 1667;
         this.height = 500;
-        this.layer1image = layer1;
-        this.layer2image = layer2;
-        this.layer3image = layer3;
-        this.layer4image = layer4;
-        this.layer5image = layer5;
-        this.layer1 = new Layer(this.game, this.width, this.height, 0.1, this.layer1image);
-        this.layer2 = new Layer(this.game, this.width, this.height, 0.2, this.layer2image);
-        this.layer3 = new Layer(this.game, this.width, this.height, 0.4, this.layer3image);
-        this.layer4 = new Layer(this.game, this.width, this.height, 0.8, this.layer4image);
-        this.layer5 = new Layer(this.game, this.width, this.height, 1, this.layer5image);
+        this.layer1 = new Layer(this.game, this.width, this.height, 0.2, layer1);
+        this.layer2 = new Layer(this.game, this.width, this.height, 0.4, layer2);
+        this.layer3 = new Layer(this.game, this.width, this.height, 0.6, layer3);
+        this.layer4 = new Layer(this.game, this.width, this.height, 0.8, layer4);
+        this.layer5 = new Layer(this.game, this.width, this.height, 1, layer5);
         this.backroundLayers = [ this.layer1, this.layer2, this.layer3, this.layer4, this.layer5 ];
     }
 

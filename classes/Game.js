@@ -36,7 +36,7 @@ export default class Game {
         this.maxTime = 60000;
         this.timeLeft = this.maxTime - this.time;
         this.lives = 5;
-        this.winningScore = 3;
+        this.winningScore = document.getElementById('winningScore').value;
         this.gameOver = false;
 
         // Outputs
@@ -93,7 +93,7 @@ export default class Game {
         else if (randomEnemy === 'spider') this.enemies.push(new Spider(this));
         else if (randomEnemy === 'plant' && this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
 
-        // Debugger: add only one enemy type
+        // @debugger: add only one enemy type
         // if (this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
         // console.log(this.enemies);
 

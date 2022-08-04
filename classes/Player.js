@@ -29,15 +29,15 @@ export default class Player {
 
         // Horizontal movement
         this.x += this.speed;
-        if (input.includes('ArrowRight') && !(this.currentState instanceof Hit)) this.speed = this.maxSpeed;
-        else if (input.includes('ArrowLeft') && !(this.currentState instanceof Hit)) this.speed = -this.maxSpeed;
+        if (this.tryMovingTo(input, 'right') && !(this.currentState instanceof Hit)) this.speed = this.maxSpeed;
+        else if (this.tryMovingTo(input, 'left') && !(this.currentState instanceof Hit)) this.speed = -this.maxSpeed;
         else this.speed = 0;
         // Horizontal boundaries
         if (this.x < 0) this.x = 0;
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
 
         // Vertical movement
-        if (input.includes('ArrowUp') && this.onGround()) this.vy -= 20;
+        if (this.tryMovingTo(input, 'up') && this.onGround()) this.vy -= 20;
         this.y += this.vy;
         if (!this.onGround()) this.vy += this.weight;
         else this.vy= 0;
@@ -89,5 +89,18 @@ export default class Player {
                 }
             }
         });
+    }
+
+    /**
+     * Expects the input and the movement ('up', 'right', 'down', 'left'). Returns true or false whether the input includes the rights keys or not.
+     */
+     tryMovingTo (input, movement) {
+        switch (movement) {
+            case 'up': return (input.includes('ArrowUp') || input.includes('z') || input.includes('Z'));
+            case 'right': return (input.includes('ArrowRight') || input.includes('d') || input.includes('D'));
+            case 'down': return (input.includes('ArrowDown') || input.includes('s') || input.includes('S'));
+            case 'left': return (input.includes('ArrowLeft') || input.includes('q') || input.includes('Q'));
+            default: return false;
+        }
     }
 }

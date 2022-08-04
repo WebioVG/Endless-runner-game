@@ -29,7 +29,7 @@ export class Sitting extends State {
     }
 
     handleInput(input) {
-        if (input.includes('ArrowLeft') || input.includes('ArrowRight')) this.game.player.setState(states.RUNNING, 1);
+        if (this.game.player.tryMovingTo(input, 'left') || this.game.player.tryMovingTo(input, 'right')) this.game.player.setState(states.RUNNING, 1);
         else if (input.includes('Enter')) this.game.player.setState(states.ROLLING, 2);
     }
 }
@@ -47,8 +47,8 @@ export class Running extends State {
 
     handleInput(input) {
         this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width * 0.45, this.game.player.y + this.game.player.height));
-        if (input.includes('ArrowDown')) this.game.player.setState(states.SITTING, 0);
-        else if (input.includes('ArrowUp')) this.game.player.setState(states.JUMPING, 1);
+        if (this.game.player.tryMovingTo(input, 'down')) this.game.player.setState(states.SITTING, 0);
+        else if (this.game.player.tryMovingTo(input, 'up')) this.game.player.setState(states.JUMPING, 1);
         else if (input.includes('Enter')) this.game.player.setState(states.ROLLING, 2);
     }
 }
@@ -68,7 +68,7 @@ export class Jumping extends State {
     handleInput(input) {
         if (this.game.player.vy > this.game.player.weight) this.game.player.setState(states.FALLING, 1);
         else if (input.includes('Enter')) this.game.player.setState(states.ROLLING, 2);
-        else if (input.includes('ArrowDown')) this.game.player.setState(states.DIVING, 0);
+        else if (this.game.player.tryMovingTo(input, 'down')) this.game.player.setState(states.DIVING, 0);
     }
 }
 
@@ -85,7 +85,7 @@ export class Falling extends State {
 
     handleInput(input) {
         if (this.game.player.onGround()) this.game.player.setState(states.RUNNING, 1);
-        else if (input.includes('ArrowDown')) this.game.player.setState(states.DIVING, 0);
+        else if (this.game.player.tryMovingTo(input, 'down')) this.game.player.setState(states.DIVING, 0);
     }
 }
 
@@ -104,8 +104,8 @@ export class Rolling extends State {
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (!input.includes('Enter') && this.game.player.onGround()) this.game.player.setState(states.RUNNING, 1);
         else if (!input.includes('Enter') && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
-        else if (!input.includes('Enter') && input.includes('Arrowup') && this.game.player.onGround()) this.game.player.vy -= 27;
-        else if (input.includes('ArrowDown') && !this.game.player.onGround()) this.game.player.setState(states.DIVING, 0);
+        else if (!input.includes('Enter') && this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.vy -= 27;
+        else if (this.game.player.tryMovingTo(input, 'down') && !this.game.player.onGround()) this.game.player.setState(states.DIVING, 0);
     }
 }
 

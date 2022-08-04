@@ -9,17 +9,33 @@ export default class InputHandler {
                     e.key === 'ArrowRight' ||
                     e.key === 'ArrowDown' ||
                     e.key === 'ArrowLeft' ||
+                    e.key === 'z' ||
+                    e.key === 'd' ||
+                    e.key === 's' ||
+                    e.key === 'q' ||
+                    e.key === 'Z' ||
+                    e.key === 'D' ||
+                    e.key === 'S' ||
+                    e.key === 'Q' ||
                     e.key === 'Enter'
                 ) && this.keys.indexOf(e.key) === -1) {
                 e.preventDefault();
                 this.keys.push(e.key);
-            } else if (e.key === 'd') this.game.debug = !this.game.debug;
+            } else if (e.key === 'p' || e.key ==='P') this.game.debug = !this.game.debug;
         });
         window.addEventListener('keyup', e => {
             if ((   e.key === 'ArrowUp' ||
                     e.key === 'ArrowRight' ||
                     e.key === 'ArrowDown' ||
                     e.key === 'ArrowLeft' ||
+                    e.key === 'z' ||
+                    e.key === 'd' ||
+                    e.key === 's' ||
+                    e.key === 'q' ||
+                    e.key === 'Z' ||
+                    e.key === 'D' ||
+                    e.key === 'S' ||
+                    e.key === 'Q' ||
                     e.key === 'Enter'
                 ) && this.keys.indexOf(e.key) !== -1) {
                 e.preventDefault();
@@ -36,7 +52,6 @@ export default class InputHandler {
         })
         document.getElementById('maxTime').addEventListener('change', e => {
             this.game.maxTime = e.target.value;
-            console.log(this.game.maxTime);
         })
     }
 }

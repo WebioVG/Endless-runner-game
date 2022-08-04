@@ -47,7 +47,7 @@ export class UI {
             this.game.ctx.font = `${this.fontSize * 2}px ${this.fontFamily}`;
             
             // Game over message
-            if (this.game.score >= this.game.winningScore) {
+            if (this.game.score >= this.game.winningScore && this.game.player.lives > 0) {
                 this.game.ctx.fillText('You won!', this.game.width * 0.5, this.game.height * 0.5 - 20);
                 this.game.ctx.font = `${this.fontSize * 0.7}px ${this.fontFamily}`;
                 this.game.ctx.fillText('Night creatures went home!', this.game.width * 0.5, this.game.height * 0.5 + 20);

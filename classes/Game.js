@@ -46,7 +46,6 @@ export default class Game {
             if (particle.markedForDeletion) this.particles.splice(index, 1);
         });
         if (this.particles.length > this.maxParticles) this.particles = this.particles.slice(0, this.maxParticles);
-        console.log(this.particles);
     }
 
     draw() {

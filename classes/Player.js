@@ -1,4 +1,4 @@
-import { Diving, Falling, Jumping, Rolling, Running, Sitting } from "./State.js";
+import { Diving, Falling, Hit, Jumping, Rolling, Running, Sitting } from "./State.js";
 
 export default class Player {
     constructor(game) {
@@ -18,7 +18,7 @@ export default class Player {
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 5;
-        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game) ];
+        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
         this.currentState = this.states[0];
     }
 
@@ -42,7 +42,7 @@ export default class Player {
         else this.vy= 0;
         // Vertical boundaries
         if (this.y > this.game.height - this.height - this.game.groundMargin) this.y = this.game.height - this.height - this.game.groundMargin;
-        // if (this.y < 0) this.y = 0;
+        if (this.y < 0) this.y = 0;
 
         // Sprite animation
         if (this.frameTimer > this.frameInterval) {
@@ -71,7 +71,6 @@ export default class Player {
     }
 
     checkCollision() {
-        // console.log(instanceof this.currentState);
         this.game.enemies.forEach(enemy => {
             if (
                 enemy.x < this.x + this.width &&
@@ -81,12 +80,7 @@ export default class Player {
             ) {
                 enemy.markedForDeletion = true;
                 if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.game.score++;
-                else {
-                    if (this.game.score <= 0) this.game.score = 0;
-                    else this.game.score--;
-                }
-            } else {
-                
+                else this.setState(6, 0);
             }
         });
     }

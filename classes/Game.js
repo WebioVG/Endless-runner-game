@@ -18,6 +18,7 @@ export default class Game {
         this.UI = new UI(this);
         this.enemies = [];
         this.particles = [];
+        this.maxParticles = 200;
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
@@ -44,6 +45,8 @@ export default class Game {
             particle.update();
             if (particle.markedForDeletion) this.particles.splice(index, 1);
         });
+        if (this.particles.length > this.maxParticles) this.particles = this.particles.slice(0, this.maxParticles);
+        console.log(this.particles);
     }
 
     draw() {

@@ -36,7 +36,7 @@ export default class Game {
         this.maxTime = 60000;
         this.timeLeft = this.maxTime - this.time;
         this.lives = 5;
-        this.winningScore = 35;
+        this.winningScore = 3;
         this.gameOver = false;
 
         // Outputs
@@ -46,7 +46,7 @@ export default class Game {
     update(deltaTime) {
         // Time
         this.time += deltaTime;
-        if (this.timeLeft > deltaTime) this.timeLeft -= deltaTime;
+        if (this.maxTime - this.time > deltaTime) this.timeLeft = this.maxTime - this.time - deltaTime;
         else this.timeLeft = 0;
         if (this.time > this.maxTime) this.gameOver = true;
 

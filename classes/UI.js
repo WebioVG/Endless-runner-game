@@ -24,6 +24,14 @@ export class UI {
         this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
         this.game.ctx.fillText(`Time left: ${(this.game.timeLeft * 0.001).toFixed(1)}s`, 20, 80);
 
+        // Debug
+        if (this.game.debug) {
+            this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
+            this.game.ctx.fillText(`Current time: ${(this.game.time * 0.001).toFixed(1)}s`, 200, 50);
+            this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
+            this.game.ctx.fillText(`Max time: ${(this.game.maxTime * 0.001).toFixed(1)}s`, 200, 80);
+        }
+
         // Lives
         for (let i = 0; i < this.game.lives; i++) {
             this.game.ctx.drawImage(lives, 25 * i + 20, 95, 25, 25);

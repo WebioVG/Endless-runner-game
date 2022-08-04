@@ -11,6 +11,7 @@ export default class InputHandler {
                     e.key === 'ArrowLeft' ||
                     e.key === 'Enter'
                 ) && this.keys.indexOf(e.key) === -1) {
+                e.preventDefault();
                 this.keys.push(e.key);
             } else if (e.key === 'd') this.game.debug = !this.game.debug;
         });
@@ -21,8 +22,21 @@ export default class InputHandler {
                     e.key === 'ArrowLeft' ||
                     e.key === 'Enter'
                 ) && this.keys.indexOf(e.key) !== -1) {
+                e.preventDefault();
                 this.keys.splice(this.keys.indexOf(e.key), 1);
             }
         });
+
+        // HTML inputs
+        document.getElementById('maxSpeed').addEventListener('change', e => {
+            this.game.maxSpeed = e.target.value;
+        })
+        document.getElementById('winningScore').addEventListener('change', e => {
+            this.game.winningScore = e.target.value;
+        })
+        document.getElementById('maxTime').addEventListener('change', e => {
+            this.game.maxTime = e.target.value;
+            console.log(this.game.maxTime);
+        })
     }
 }

@@ -1,24 +1,72 @@
+html {
+    margin: 0;
+}
+
 p, h3 {
     margin: 0;
 }
 
+#main {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    width: 100%;
+}
+
 #canvas1 {
     border: 5px solid #000;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 1200px;
     height: 600px;
     font-family: 'Creepster', cursive;
 }
 
 #controls {
-    align-items: center;
     display: flex;
-    gap: 50px;
-    justify-content: center;
-    margin-top: 15px;
+    justify-content: space-around;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 20px auto;
+    width: 1200px;
+}
+
+#controls h3 {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+}
+
+#controls article {
+    width: 300px;
+}
+
+hr {
+    margin: 20px 0;
+}
+
+ul li {
+    font-style: italic;
+}
+
+ul li span {
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    width: 100px;
+}
+
+#controls article:nth-of-type(2) div {
+    margin: 10px 0;
+}
+
+#controls article:nth-of-type(2) > div label {
+    display: inline-block;
+    width: 120px;
+}
+
+#controls article:nth-of-type(2) > div input {
+    padding-right: 5px;
+    text-align: end;
+    width: 120px;
 }
 
 img {

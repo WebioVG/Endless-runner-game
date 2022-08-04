@@ -39,7 +39,7 @@ class FlyingEnemy extends Enemy {
     constructor(game) {
         super(game);
         this.x = this.game.width + Math.random() * this.game.width * 0.5;
-        this.y = Math.random() * this.game.height * 0.4;
+        this.y = Math.random() * (this.game.height * 0.6 - this.game.height * 0.2) + this.game.height * 0.2;
     }
 }
 
@@ -177,7 +177,7 @@ export class Spider extends ClimbingEnemy {
         this.width = this.spriteWidth * 0.3;
         this.height = this.spriteHeight * 0.3;
         this.x = Math.random() * this.game.width;
-        this.y = Math.random() * (this.height + 100) - this.height;
+        this.y = Math.random() * (-this.height + 100) - this.height;
         this.image = enemy_spider;
         this.vx = 0;
         this.vy = Math.random() * 0.1 + 0.1;

@@ -33,9 +33,10 @@ export default class Game {
         this.enemyInterval = 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 0;
-        this.maxTime = 10000;
+        this.maxTime = 60000;
         this.timeLeft = this.maxTime - this.time;
         this.lives = 5;
+        this.winningScore = 30;
         this.gameOver = false;
 
         // Outputs

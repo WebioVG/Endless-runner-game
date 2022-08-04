@@ -6,26 +6,35 @@ import { UI } from "./UI.js";
 
 export default class Game {
     constructor(ctx, width, height) {
+        // Drawing parameters
         this.ctx = ctx;
         this.width = width;
         this.height = height;
         this.groundMargin = 80;
-        this.speed = 0;
-        this.maxSpeed = 3;
+        this.fontColor = 'black';
+
+        // Features
         this.background = new Background(this);
         this.player = new Player(this);
         this.input = new InputHandler(this);
         this.UI = new UI(this);
+
+        // Objects in the current game
         this.enemies = [];
         this.particles = [];
         this.collisions = [];
-        this.maxParticles = 200;
-        this.enemyInterval = 1000;
-        this.enemyTimer = 0;
-        this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
-        this.score = 0;
+
+        // Game properties
         this.debug = false;
-        this.fontColor = 'black';
+        this.speed = 0;
+        this.maxSpeed = 3;
+        this.maxParticles = 200;
+        this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
+        this.enemyInterval = 200; // one enemy every enemyInterval ms
+        this.enemyTimer = 0;
+
+        // Outputs
+        this.score = 0;
     }
 
     update(deltaTime) {

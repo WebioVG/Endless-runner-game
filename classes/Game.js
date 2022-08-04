@@ -16,6 +16,8 @@ export default class Game {
         // Features
         this.background = new Background(this);
         this.player = new Player(this);
+        this.player.currentState = this.player.states[0];
+        this.player.currentState.enter();
         this.input = new InputHandler(this);
         this.UI = new UI(this);
 
@@ -23,6 +25,7 @@ export default class Game {
         this.enemies = [];
         this.particles = [];
         this.collisions = [];
+        this.floatingMessages = [];
 
         // Game properties
         this.debug = false;
@@ -35,7 +38,7 @@ export default class Game {
         this.time = 0;
         this.maxTime = 60000;
         this.timeLeft = this.maxTime - this.time;
-        this.winningScore = document.getElementById('winningScore').value;
+        this.winningScore = parseInt(document.getElementById('winningScore').value);
         this.gameOver = false;
 
         // Outputs
@@ -62,17 +65,17 @@ export default class Game {
         this.player.update(this.input.keys, deltaTime);
 
         // Particles
-        this.particles.forEach((particle, index) => {
-            particle.update();
-            if (particle.markedForDeletion) this.particles.splice(index, 1);
-        });
+        this.particles = this.particles.filter(particle => !particle.markedForDeletion);
+        this.particles.forEach(particle => particle.update());
         if (this.particles.length > this.maxParticles) this.particles.length = this.maxParticles;
-
+        
         // Collisions
-        this.collisions.forEach((collision, index) => {
-            collision.update(deltaTime);
-            if (collision.markedForDeletion) this.collisions.splice(index, 1);
-        })
+        this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
+        this.collisions.forEach(collision => collision.update(deltaTime))
+
+        // Messages
+        this.floatingMessages = this.floatingMessages.filter(message => !message.markedForDeletion);
+        this.floatingMessages.forEach(message => message.update());
     }
 
     draw() {
@@ -81,6 +84,7 @@ export default class Game {
         this.player.draw();
         this.particles.forEach(particle => particle.draw());
         this.collisions.forEach(collision => collision.draw());
+        this.floatingMessages.forEach(message => message.draw(this.ctx));
         this.UI.draw();
     }
 

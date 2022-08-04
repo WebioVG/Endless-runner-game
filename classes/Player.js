@@ -1,4 +1,5 @@
 import { CollisionAnimation } from "./CollisionAnimation.js";
+import { FloatingMessage } from "./FloatingMessage.js";
 import { Diving, Falling, Hit, Jumping, Rolling, Running, Sitting } from "./State.js";
 
 export default class Player {
@@ -20,8 +21,8 @@ export default class Player {
         this.speed = 0;
         this.maxSpeed = 5;
         this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
-        this.currentState = this.states[0];
-        this.lives = document.getElementById('livesInput').value;
+        this.currentState = null;
+        this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
     }
 
     update(input, deltaTime) {
@@ -82,7 +83,10 @@ export default class Player {
             ) {
                 enemy.markedForDeletion = true;
                 this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
-                if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.game.score++;
+                if (this.currentState instanceof Rolling || this.currentState instanceof Diving) {
+                    this.game.score++;
+                    this.game.floatingMessages.push(new FloatingMessage('+1', enemy.x, enemy.y, 120, 50));
+                }
                 else {
                     this.setState(6, 0);
                     this.game.player.lives--;

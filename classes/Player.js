@@ -21,6 +21,7 @@ export default class Player {
         this.maxSpeed = 5;
         this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
         this.currentState = this.states[0];
+        this.lives = document.getElementById('livesInput').value;
     }
 
     update(input, deltaTime) {
@@ -84,8 +85,8 @@ export default class Player {
                 if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.game.score++;
                 else {
                     this.setState(6, 0);
-                    this.game.lives--;
-                    if (this.game.lives <= 0) this.game.gameOver = true;
+                    this.game.player.lives--;
+                    if (this.game.player.lives <= 0) this.game.gameOver = true;
                 }
             }
         });

@@ -33,7 +33,7 @@ export class UI {
         }
 
         // Lives
-        for (let i = 0; i < this.game.lives; i++) {
+        for (let i = 0; i < this.game.player.lives; i++) {
             this.game.ctx.drawImage(lives, 25 * i + 20, 95, 25, 25);
         }
 

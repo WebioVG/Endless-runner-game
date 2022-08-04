@@ -53,5 +53,8 @@ export default class InputHandler {
         document.getElementById('maxTime').addEventListener('change', e => {
             this.game.maxTime = e.target.value;
         })
+        document.getElementById('livesInput').addEventListener('change', e => {
+            this.game.lives = e.target.value;
+        })
     }
 }

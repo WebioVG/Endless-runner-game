@@ -82,7 +82,11 @@ export default class Player {
                 enemy.markedForDeletion = true;
                 this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
                 if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.game.score++;
-                else this.setState(6, 0);
+                else {
+                    this.setState(6, 0);
+                    this.game.lives--;
+                    if (this.game.lives <= 0) this.game.gameOver = true;
+                }
             }
         });
     }

@@ -35,6 +35,7 @@ export default class Game {
         this.time = 0;
         this.maxTime = 10000;
         this.timeLeft = this.maxTime - this.time;
+        this.lives = 5;
         this.gameOver = false;
 
         // Outputs

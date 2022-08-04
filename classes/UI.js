@@ -2,7 +2,7 @@ export class UI {
     constructor(game) {
         this.game = game;
         this.fontSize = 30;
-        this.fontFamily = 'Helvetica';
+        this.fontFamily = 'Creepster';
     }
 
     draw() {
@@ -21,6 +21,10 @@ export class UI {
         // Timer
         this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
         this.game.ctx.fillText(`Time left: ${(this.game.timeLeft * 0.001).toFixed(1)}s`, 20, 80);
+        // Lives
+        for (let i = 0; i < this.game.lives; i++) {
+            this.game.ctx.drawImage(lives, 25 * i + 20, 95, 25, 25);
+        }
         // Game Over
         if (this.game.gameOver) {
             this.game.ctx.textAlign = 'center';

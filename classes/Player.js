@@ -18,7 +18,7 @@ export default class Player {
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 5;
-        this.states = [ new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Rolling(this) ];
+        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game) ];
         this.currentState = this.states[0];
     }
 

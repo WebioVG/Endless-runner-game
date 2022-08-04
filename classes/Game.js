@@ -17,6 +17,7 @@ export default class Game {
         this.input = new InputHandler(this);
         this.UI = new UI(this);
         this.enemies = [];
+        this.particles = [];
         this.enemyInterval = 1000;
         this.enemyTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
@@ -37,6 +38,12 @@ export default class Game {
 
         // Player
         this.player.update(this.input.keys, deltaTime);
+
+        // Particles
+        this.particles.forEach((particle, index) => {
+            particle.update();
+            if (particle.markedForDeletion) this.particles.splice(index, 1);
+        });
     }
 
     draw() {
@@ -44,6 +51,10 @@ export default class Game {
         this.enemies.forEach(object => object.draw(this.ctx));
         this.player.draw();
         this.UI.draw();
+        // Particles
+        this.particles.forEach(particle => {
+            particle.draw();
+        });
     }
 
     #addNewEnemy() {

@@ -36,7 +36,7 @@ export default class Game {
         this.maxTime = 60000;
         this.timeLeft = this.maxTime - this.time;
         this.lives = 5;
-        this.winningScore = 30;
+        this.winningScore = 35;
         this.gameOver = false;
 
         // Outputs

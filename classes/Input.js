@@ -45,16 +45,16 @@ export default class InputHandler {
 
         // HTML inputs
         document.getElementById('maxSpeed').addEventListener('change', e => {
-            this.game.maxSpeed = e.target.value;
+            this.game.maxSpeed = parseInt(e.target.value);
         })
         document.getElementById('winningScore').addEventListener('change', e => {
-            this.game.winningScore = e.target.value;
+            this.game.winningScore = parseInt(e.target.value);
         })
         document.getElementById('maxTime').addEventListener('change', e => {
-            this.game.maxTime = e.target.value;
+            this.game.maxTime = parseInt(e.target.value);
         })
         document.getElementById('livesInput').addEventListener('change', e => {
-            this.game.player.lives = e.target.value;
+            this.game.player.lives = parseInt(e.target.value);
         })
     }
 }

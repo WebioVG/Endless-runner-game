@@ -30,14 +30,21 @@ export default class Game {
         this.maxSpeed = 3;
         this.maxParticles = 200;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
-        this.enemyInterval = 200; // one enemy every enemyInterval ms
+        this.enemyInterval = 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
+        this.time = 0;
+        this.maxTime = 10000;
+        this.gameOver = false;
 
         // Outputs
         this.score = 0;
     }
 
     update(deltaTime) {
+        // Time
+        this.time += deltaTime;
+        if (this.time > this.maxTime) this.gameOver = true;
+
         // Background
         this.background.update();
 
@@ -68,15 +75,9 @@ export default class Game {
         this.background.draw(this.ctx);
         this.enemies.forEach(object => object.draw(this.ctx));
         this.player.draw();
+        this.particles.forEach(particle => particle.draw());
+        this.collisions.forEach(collision => collision.draw());
         this.UI.draw();
-        // Particles
-        this.particles.forEach(particle => {
-            particle.draw();
-        });
-        // Collisions
-        this.collisions.forEach(collision => {
-            collision.draw();
-        });
     }
 
     #addNewEnemy() {
@@ -87,6 +88,7 @@ export default class Game {
         else if (randomEnemy === 'spider') this.enemies.push(new Spider(this));
         else if (randomEnemy === 'plant' && this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
 
+        // Debugger: add only one enemy type
         // if (this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
         // console.log(this.enemies);
 

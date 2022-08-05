@@ -159,6 +159,25 @@ export class Plant extends GroundEnemy {
     }
 }
 
+export class Hand extends GroundEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 56;
+        this.spriteHeight = 80;
+        this.width = this.spriteWidth;
+        this.height = this.spriteHeight;
+        this.y -= this.height;
+        this.maxFrame = 7;
+        this.image = enemy_hand;
+    }
+    update(deltaTime) {
+        // Horizontal movement
+        this.x -= this.game.speed;
+
+        super.update(deltaTime);
+    }
+}
+
 //////////////////////
 // CLIMBING ENEMIES //
 //////////////////////

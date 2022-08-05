@@ -48,8 +48,8 @@ export class Ghost extends FlyingEnemy {
         super(game);
         this.spriteWidth = 87;
         this.spriteHeight = 70;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
+        this.width = this.spriteWidth * 1.2;
+        this.height = this.spriteHeight * 1.2;
         this.maxFrame = 5;
         this.image = enemy_ghost_3;
         this.vx = Math.random() * 0.12 + 0.07;
@@ -124,12 +124,33 @@ export class Worm extends GroundEnemy {
         super(game);
         this.spriteWidth = 80;
         this.spriteHeight = 60;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
+        this.width = this.spriteWidth * 1.1;
+        this.height = this.spriteHeight * 1.1;
         this.y -= this.height;
         this.maxFrame = 5;
         this.image = enemy_worm;
-        this.vx = Math.random() * (0.12 - 0.03) + 0.03;
+        this.vx = Math.random() * (0.08 - 0.03) + 0.03;
+    }
+
+    update(deltaTime) {
+        // Horizontal movement
+        this.x -= this.vx * deltaTime + this.game.speed;
+        
+        super.update(deltaTime);
+    }
+}
+
+export class Zombie extends GroundEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 292;
+        this.spriteHeight = 410;
+        this.width = this.spriteWidth * 0.3;
+        this.height = this.spriteHeight * 0.3;
+        this.y -= this.height;
+        this.maxFrame = 7;
+        this.image = enemy_zombie;
+        this.vx = Math.random() * (0.13 - 0.03) + 0.05;
     }
 
     update(deltaTime) {
@@ -145,8 +166,8 @@ export class Plant extends GroundEnemy {
         super(game);
         this.spriteWidth = 60;
         this.spriteHeight = 87;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
+        this.width = this.spriteWidth * 1.2;
+        this.height = this.spriteHeight * 1.2;
         this.y -= this.height;
         this.maxFrame = 1;
         this.image = enemy_plant;
@@ -164,8 +185,8 @@ export class Hand extends GroundEnemy {
         super(game);
         this.spriteWidth = 56;
         this.spriteHeight = 80;
-        this.width = this.spriteWidth;
-        this.height = this.spriteHeight;
+        this.width = this.spriteWidth * 1.65;
+        this.height = this.spriteHeight * 1.65;
         this.y -= this.height;
         this.maxFrame = 7;
         this.image = enemy_hand;
@@ -193,8 +214,8 @@ export class Spider extends ClimbingEnemy {
         super(game);
         this.spriteWidth = 310;
         this.spriteHeight = 175;
-        this.width = this.spriteWidth * 0.3;
-        this.height = this.spriteHeight * 0.3;
+        this.width = this.spriteWidth * 0.35;
+        this.height = this.spriteHeight * 0.35;
         this.x = Math.random() * this.game.width;
         this.y = Math.random() * (-this.height + 100) - this.height;
         this.image = enemy_spider;

@@ -1,4 +1,4 @@
-import { Fly, Ghost, Hand, Plant, Spider, Worm } from "./Enemy.js";
+import { Fly, Ghost, Hand, Plant, Spider, Worm, Zombie } from "./Enemy.js";
 import InputHandler from "./Input.js";
 import Background from "./Background.js";
 import Player from "./player.js";
@@ -32,7 +32,7 @@ export default class Game {
         this.speed = 0;
         this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
         this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
-        this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand'];
+        this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand', 'zombie'];
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 0;
@@ -96,6 +96,7 @@ export default class Game {
         if (randomEnemy === 'fly') this.enemies.push(new Fly(this));
         else if (randomEnemy === 'ghost') this.enemies.push(new Ghost(this));
         else if (randomEnemy === 'worm') this.enemies.push(new Worm(this));
+        else if (randomEnemy === 'zombie') this.enemies.push(new Zombie(this));
         else if (randomEnemy === 'spider') this.enemies.push(new Spider(this));
         else if (randomEnemy === 'plant' && this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
         else if (randomEnemy === 'hand' && this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Hand(this));

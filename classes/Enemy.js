@@ -16,7 +16,7 @@ class Enemy {
         if (this.x < 0 - this.width) {this.markedForDeletion = true; return;};
 
         // Sprite animation
-        if (this.frameTimer > this. frameInterval) {
+        if (this.frameTimer > this.frameInterval) {
             if (this.frameX < this.maxFrame) this.frameX++;
             else this.frameX = 0;
             this.frameTimer = 0;
@@ -65,7 +65,8 @@ export class Ghost extends FlyingEnemy {
 
     update(deltaTime) {
         // Horizontal movement
-        this.x -= this.vx * deltaTime + this.game.speed;
+        if (this.game.speed >= 1) this.x -= this.vx * deltaTime * this.game.speed;
+        else this.x -= this.vx * deltaTime;
 
         // Vertical movement
         this.angle += this.va;
@@ -102,13 +103,47 @@ export class Fly extends FlyingEnemy {
 
     update(deltaTime) {
         // Horizontal Movement
-        this.x -= this.speedX + this.game.speed;
+        if (this.game.speed >= 1) this.x -= this.speedX * this.game.speed;
+        else this.x -= this.speedX;
 
         // Vertical movement
         this.angle += this.va;
         this.y += Math.sin(this.angle);
 
         super.update(deltaTime);
+    }
+}
+
+export class Bat1 extends FlyingEnemy {
+    constructor(game){
+        super(game);
+        this.spriteWidth = 83;
+        this.spriteHeight = 44;
+        this.width = this.spriteWidth * this.sizeModifier;
+        this.height = this.spriteHeight * this.sizeModifier;
+        this.image = enemy_bat_1;
+        this.speedX = Math.random() * (3 - 2) + 1;
+        this.speedY = Math.random() * (5 - 2) + 2;
+        this.boundaryYPlus = this.y - Math.random() * (5 - 1) + 2;
+        this.boundaryYMinus = this.y + this.height + Math.random() * (5 - 1) + 2;
+        this.maxFrame = 5;
+        this.flapSpeed = Math.round(Math.random() * (50 - 5) + 5);
+    }
+
+    update(deltaTime) {
+        // Horizontal Movement
+        if (this.game.speed >= 1) this.x -= this.speedX * this.game.speed;
+        else this.x -= this.speedX;
+
+        // Vertical movement
+        this.y += this.speedY;
+        if (this.y < this.boundaryYPlus) this.speedY = -this.speedY;
+        if (this.y > this.boundaryYMinus) this.speedY = -this.speedY;
+    
+        super.update(deltaTime);
+
+        // Randomize flap speed
+        this.frameTimer += this.flapSpeed;
     }
 }
 
@@ -160,7 +195,8 @@ export class Zombie extends GroundEnemy {
 
     update(deltaTime) {
         // Horizontal movement
-        this.x -= this.vx * deltaTime + this.game.speed;
+        if (this.game.speed >= 1) this.x -= this.vx * deltaTime * this.game.speed;
+        else this.x -= this.vx * deltaTime;
         
         super.update(deltaTime);
     }

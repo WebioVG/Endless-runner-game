@@ -39,7 +39,7 @@ export default class Player {
         if (this.x > this.game.width - this.width) this.x = this.game.width - this.width;
 
         // Vertical movement
-        if (this.tryMovingTo(input, 'up') && this.onGround()) this.vy -= 20;
+        if (this.tryMovingTo(input, 'up') && this.onGround() && !(this.currentState instanceof Sitting)) this.vy -= 20;
         this.y += this.vy;
         if (!this.onGround()) this.vy += this.weight;
         else this.vy= 0;

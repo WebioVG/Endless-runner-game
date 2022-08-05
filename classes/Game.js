@@ -105,4 +105,8 @@ export default class Game {
 
         this.enemies.sort((a, b) => { return (a.y - b.y) });
     }
+
+    // resetStats() {
+    //     this.
+    // }
 }

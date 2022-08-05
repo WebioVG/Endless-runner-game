@@ -23,7 +23,7 @@ export default class Player {
         this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
         this.currentState = null;
         this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
-        this.energy = 5;
+        this.energy = parseInt(document.getElementById('energyInput').value) ?? 5;
         this.allowRollingEvery = 50;
     }
 

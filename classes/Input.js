@@ -53,6 +53,9 @@ export default class InputHandler {
         document.getElementById('livesInput').addEventListener('change', e => {
             this.game.player.lives = parseInt(e.target.value);
         })
+        document.getElementById('energyInput').addEventListener('change', e => {
+            this.game.player.energy = parseInt(e.target.value);
+        })
         document.getElementById('enemyIntervalInput').addEventListener('change', e => {
             this.game.enemyInterval = parseInt(e.target.value);
         })

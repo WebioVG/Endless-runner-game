@@ -1,6 +1,6 @@
 import { Fly, Ghost, Plant, Spider, Worm } from "./Enemy.js";
 import InputHandler from "./Input.js";
-import Background from "./Layer.js";
+import Background from "./Background.js";
 import Player from "./player.js";
 import { UI } from "./UI.js";
 
@@ -88,6 +88,9 @@ export default class Game {
         this.UI.draw();
     }
 
+    /**
+     * Adds a new random enemy to the game.
+     */
     #addNewEnemy() {
         const randomEnemy = this.enemyTypes[Math.round(Math.random() * this.enemyTypes.length)];
         if (randomEnemy === 'fly') this.enemies.push(new Fly(this));
@@ -100,8 +103,6 @@ export default class Game {
         // if (this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Plant(this));
         // console.log(this.enemies);
 
-        this.enemies.sort((a, b) => {
-            return a.y - b.y;
-        } );
+        this.enemies.sort((a, b) => { return (a.y - b.y) });
     }
 }

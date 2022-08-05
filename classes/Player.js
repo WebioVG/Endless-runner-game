@@ -26,7 +26,7 @@ export default class Player {
     }
 
     update(input, deltaTime) {
-        this.checkCollision();
+        this.handleCollision();
         this.currentState.handleInput(input);
 
         // Horizontal movement
@@ -63,17 +63,27 @@ export default class Player {
         this.game.ctx.drawImage(this.image, this.frameX * this.width, this.frameY * this.height, this.width, this.height, this.x, this.y, this.width, this.height);
     }
 
+    /**
+     * Checks if the player is on the ground.
+     */
     onGround() {
         return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
 
+    /**
+     * Sets a new state to the player and adapts game speed.
+     */
     setState(state, speed) {
         this.currentState = this.states[state];
         this.game.speed = this.game.maxSpeed * speed;
         this.currentState.enter();
     }
 
+    /**
+     * Checks if the player is currently in collision with an enemy and returns it or null.
+     */
     checkCollision() {
+        let enemyColliding = null;
         this.game.enemies.forEach(enemy => {
             if (
                 enemy.x < this.x + this.width &&
@@ -81,25 +91,49 @@ export default class Player {
                 enemy.y < this.y + this.height && 
                 enemy.y + enemy.height > this.y
             ) {
-                enemy.markedForDeletion = true;
-                this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width * 0.5, enemy.y + enemy.height * 0.5))
-                if (this.currentState instanceof Rolling || this.currentState instanceof Diving) {
-                    this.game.score++;
-                    this.game.floatingMessages.push(new FloatingMessage('+1', enemy.x, enemy.y, 120, 50));
-                }
-                else {
-                    this.setState(6, 0);
-                    this.game.player.lives--;
-                    if (this.game.player.lives <= 0) this.game.gameOver = true;
-                }
+                enemyColliding = enemy;
             }
         });
+        return enemyColliding;
+    }
+
+    /**
+     *  Checks if the player is in collision and handles it.
+     */
+    handleCollision() {
+        if (this.checkCollision() === null) return;
+        let enemyColliding = this.checkCollision();
+
+        // Delete the colliding enemy
+        enemyColliding.markedForDeletion = true;
+        // Add a new collision animation
+        this.game.collisions.push(new CollisionAnimation(this.game, enemyColliding.x + enemyColliding.width * 0.5, enemyColliding.y + enemyColliding.height * 0.5))    
+        // Collision outputs
+        if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.#handleSuccess(enemyColliding);
+        else this.#handleFailure();
+    }
+
+    /**
+     * Increases the current score and adds a '+1' floating message.
+     */
+    #handleSuccess(enemyColliding) {
+        this.game.score++;
+        this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 50));
+    }
+
+    /**
+     * Sets the player state to hit, decreases its lives number and sets game over if the player is out of lives.
+     */
+    #handleFailure() {
+        this.setState(6, 0);
+        this.game.player.lives--;
+        if (this.game.player.lives <= 0) this.game.gameOver = true;
     }
 
     /**
      * Expects the input and the movement ('up', 'right', 'down', 'left'). Returns true or false whether the input includes the rights keys or not.
      */
-     tryMovingTo (input, movement) {
+    tryMovingTo (input, movement) {
         switch (movement) {
             case 'up': return (input.includes('ArrowUp') || input.includes('z') || input.includes('Z'));
             case 'right': return (input.includes('ArrowRight') || input.includes('d') || input.includes('D'));

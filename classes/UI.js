@@ -29,6 +29,10 @@ export class UI {
             this.game.ctx.drawImage(lives, 25 * i + 20, 95, 25, 25);
         }
 
+        // Energy
+        this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
+        this.game.ctx.fillText(`Energy: ${this.game.player.energy}`, 20, 150);
+        
         // Winning score
         this.game.ctx.fillText(`Winning score: ${this.game.winningScore}`, this.game.width - 200, 50);
 

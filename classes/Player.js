@@ -23,6 +23,8 @@ export default class Player {
         this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
         this.currentState = null;
         this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
+        this.energy = 5;
+        this.allowRollingEvery = 50;
     }
 
     update(input, deltaTime) {
@@ -121,8 +123,15 @@ export default class Player {
      * Increases the current score and adds a '+1' floating message.
      */
     #handleSuccess(enemyColliding) {
+        // Score
         this.game.score++;
         this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 50));
+        
+        // Energy
+        if (Math.random() > 0.85) {
+            this.game.player.energy++;
+            this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 150));
+        }
     }
 
     /**

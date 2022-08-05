@@ -44,13 +44,13 @@ export default class InputHandler {
         });
 
         // HTML inputs
-        document.getElementById('maxSpeed').addEventListener('change', e => {
+        document.getElementById('maxSpeedInput').addEventListener('change', e => {
             this.game.maxSpeed = parseInt(e.target.value);
         })
-        document.getElementById('winningScore').addEventListener('change', e => {
+        document.getElementById('winningScoreInput').addEventListener('change', e => {
             this.game.winningScore = parseInt(e.target.value);
         })
-        document.getElementById('maxTime').addEventListener('change', e => {
+        document.getElementById('maxTimeInput').addEventListener('change', e => {
             this.game.maxTime = parseInt(e.target.value);
         })
         document.getElementById('livesInput').addEventListener('change', e => {
@@ -58,6 +58,9 @@ export default class InputHandler {
         })
         document.getElementById('enemyIntervalInput').addEventListener('change', e => {
             this.game.enemyInterval = parseInt(e.target.value);
+        })
+        document.getElementById('maxParticlesInput').addEventListener('change', e => {
+            this.game.maxParticles = parseInt(e.target.value);
         })
     }
 }

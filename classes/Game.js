@@ -30,15 +30,15 @@ export default class Game {
         // Game properties
         this.debug = false;
         this.speed = 0;
-        this.maxSpeed = 3;
-        this.maxParticles = 200;
+        this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
+        this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
-        this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value); // one enemy every enemyInterval ms
+        this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 0;
-        this.maxTime = 60000;
+        this.maxTime = parseInt(document.getElementById('maxTimeInput').value) ?? 60000;
         this.timeLeft = this.maxTime - this.time;
-        this.winningScore = parseInt(document.getElementById('winningScore').value);
+        this.winningScore = parseInt(document.getElementById('winningScoreInput').value) ?? 35;
         this.gameOver = false;
 
         // Outputs
@@ -105,8 +105,4 @@ export default class Game {
 
         this.enemies.sort((a, b) => { return (a.y - b.y) });
     }
-
-    // resetStats() {
-    //     this.
-    // }
 }

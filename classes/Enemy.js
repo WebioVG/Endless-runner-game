@@ -184,8 +184,9 @@ export class Worm extends GroundEnemy {
 }
 
 export class Zombie extends GroundEnemy {
-    constructor(game) {
+    constructor(game, sizeModifier = (Math.random() * (1.05 - 0.95) + 0.95)) {
         super(game);
+        this.sizeModifier = sizeModifier;
         this.spriteWidth = 292;
         this.spriteHeight = 410;
         this.width = this.spriteWidth * 0.3 * this.sizeModifier;

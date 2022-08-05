@@ -3,6 +3,7 @@ import InputHandler from "./Input.js";
 import Background from "./Background.js";
 import Player from "./player.js";
 import { UI } from "./UI.js";
+import { BigZombie } from "./Event.js";
 
 export default class Game {
     constructor(ctx, width, height) {
@@ -26,16 +27,20 @@ export default class Game {
         this.particles = [];
         this.collisions = [];
         this.floatingMessages = [];
+        this.event = null;
 
         // Game properties
         this.debug = false;
         this.speed = 0;
         this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
         this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
+        this.eventTypes = ['bigZombie'];
+        this.eventInterval = 60000;
+        this.eventTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand', 'zombie', 'bat1'];
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
-        this.time = 0;
+        this.time = 1;
         this.winningScore = parseInt(document.getElementById('winningScoreInput').value) ?? 35;
         this.gameOver = false;
 
@@ -68,9 +73,13 @@ export default class Game {
         this.collisions = this.collisions.filter(collision => !collision.markedForDeletion);
         this.collisions.forEach(collision => collision.update(deltaTime))
 
-        // Messages
+        // Floating messages
         this.floatingMessages = this.floatingMessages.filter(message => !message.markedForDeletion);
         this.floatingMessages.forEach(message => message.update());
+        
+        // Event
+        if (this.eventTimer < this.eventInterval) this.eventTimer += deltaTime;
+        else { this.#addNewEvent(); this.eventTimer = 0}
     }
 
     draw() {
@@ -102,5 +111,14 @@ export default class Game {
         // console.log(this.enemies);
 
         this.enemies.sort((a, b) => { return (a.y - b.y) });
+    }
+
+    /**
+     * Adds a new event object to the game.
+     */
+    #addNewEvent() {
+        const randomEvent = this.eventTypes[Math.floor(Math.random() * this.eventTypes.length)];
+        if (randomEvent === 'bigZombie') this.event = new BigZombie(this);
+        this.event.enter();
     }
 }

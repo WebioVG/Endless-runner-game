@@ -1,6 +1,6 @@
 import { CollisionAnimation } from "./CollisionAnimation.js";
 import { FloatingMessage } from "./FloatingMessage.js";
-import { Diving, Falling, Hit, Jumping, Rolling, Running, Sitting } from "./State.js";
+import { Diving, Falling, Hit, Idle, Jumping, Rolling, Running, Sitting } from "./State.js";
 
 export default class Player {
     constructor(game) {
@@ -20,7 +20,7 @@ export default class Player {
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 5;
-        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game) ];
+        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game), new Idle(this.game) ];
         this.currentState = null;
         this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
         this.energy = parseInt(document.getElementById('energyInput').value) ?? 5;

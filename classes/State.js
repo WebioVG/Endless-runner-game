@@ -8,6 +8,7 @@ const states = {
     ROLLING: 4,
     DIVING: 5,
     HIT: 6,
+    IDLE: 7
 }
 
 class State {
@@ -33,7 +34,8 @@ export class Sitting extends State {
     handleInput(input) {
         this.stateTimer++;
        
-        if (this.game.player.tryMovingTo(input, 'left') || this.game.player.tryMovingTo(input, 'right')) this.game.player.setState(states.RUNNING, 1);
+        if (this.game.player.tryMovingTo(input, 'right')) this.game.player.setState(states.RUNNING, 1);
+        else if (this.game.player.tryMovingTo(input, 'left')) this.game.player.setState(states.IDLE, 1);
         else if (input.includes('Enter') && this.game.player.energy > 0 && this.stateTimer >= this.game.player.allowRollingEvery) this.game.player.setState(states.ROLLING, 2);
     }
 }
@@ -56,6 +58,7 @@ export class Running extends State {
         this.game.particles.push(new Dust(this.game, this.game.player.x + this.game.player.width * 0.45, this.game.player.y + this.game.player.height));
         if (this.game.player.tryMovingTo(input, 'down')) this.game.player.setState(states.SITTING, 0);
         else if (this.game.player.tryMovingTo(input, 'up')) this.game.player.setState(states.JUMPING, 1);
+        else if (this.game.player.tryMovingTo(input, 'left') && this.game.player.onGround()) this.game.player.setState(states.IDLE, 1);
         else if (input.includes('Enter') && this.game.player.energy > 0 && this.stateTimer >= this.game.player.allowRollingEvery) this.game.player.setState(states.ROLLING, 2);
     }
 }
@@ -102,6 +105,7 @@ export class Rolling extends State {
     constructor(game) {
         super('ROLLING', game);
         this.rollingLength = 100;
+        this.rollingJumpHeight = 40;
     }
 
     enter() {
@@ -121,7 +125,7 @@ export class Rolling extends State {
         else if (this.stateTimer % this.rollingLength === 0) this.game.player.setState(states.RUNNING, 1);
         else if (!input.includes('Enter') && this.game.player.onGround()) this.game.player.setState(states.RUNNING, 1);
         else if (!input.includes('Enter') && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
-        else if (!input.includes('Enter') && this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.vy -= 27;
+        else if (!input.includes('Enter') && this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.vy -= this.rollingJumpHeight;
         else if (this.game.player.tryMovingTo(input, 'down') && !this.game.player.onGround()) this.game.player.setState(states.DIVING, 0);
     }
 }
@@ -165,7 +169,29 @@ export class Hit extends State {
     }
 
     handleInput(input) {        
-        if (this.game.player.frameX >= 10 && this.game.player.onGround()) this.game.player.setState(states.SITTING, 0);
-        else if (this.game.player.frameX >= 10 && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
+        if (this.game.player.frameX >= this.game.player.maxFrame && this.game.player.onGround()) this.game.player.setState(states.IDLE, 1);
+        else if (this.game.player.frameX >= this.game.player.maxFrame && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
+    }
+}
+
+export class Idle extends State {
+    constructor(game) {
+        super('IDLE', game);
+    }
+
+    enter() {
+        this.game.player.frameX = 0;
+        this.game.player.maxFrame = 6;
+        this.game.player.frameY = 0;
+        this.stateTimer = 0;
+    }
+
+    handleInput(input) {
+        this.stateTimer++;
+
+        if (this.game.player.tryMovingTo(input, 'right')) this.game.player.setState(states.RUNNING, 1);
+        else if (this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.setState(states.JUMPING, 1);
+        else if (this.game.player.tryMovingTo(input, 'down') && this.game.player.onGround()) this.game.player.setState(states.SITTING, 0);
+        else if (input.includes('Enter') && this.stateTimer >= this.game.player.allowRollingEvery) this.game.player.setState(states.ROLLING, 2);
     }
 }

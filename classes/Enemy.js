@@ -155,7 +155,8 @@ class GroundEnemy extends Enemy {
     constructor(game){
         super(game);
         this.x = this.game.width + Math.random() * this.game.width * 0.5;
-        this.y = this.game.height - this.game.groundMargin;
+        this.boundaryYPlus = this.game.height - this.game.groundMargin + 10;
+        this.boundaryYMinus = this.game.height - 10;
     }
 }
 
@@ -166,7 +167,9 @@ export class Worm extends GroundEnemy {
         this.spriteHeight = 60;
         this.width = this.spriteWidth * 1.1 * this.sizeModifier;
         this.height = this.spriteHeight * 1.1 * this.sizeModifier;
-        this.y -= this.height;
+        this.boundaryYPlus -= this.height;
+        this.boundaryYMinus -= this.height;
+        this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;
         this.maxFrame = 5;
         this.image = enemy_worm;
         this.vx = Math.random() * (0.08 - 0.03) + 0.03;
@@ -187,7 +190,9 @@ export class Zombie extends GroundEnemy {
         this.spriteHeight = 410;
         this.width = this.spriteWidth * 0.3 * this.sizeModifier;
         this.height = this.spriteHeight * 0.3 * this.sizeModifier;
-        this.y -= this.height;
+        this.boundaryYPlus -= this.height;
+        this.boundaryYMinus -= this.height;
+        this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;
         this.maxFrame = 7;
         this.image = enemy_zombie;
         this.vx = (Math.random() * (0.13 - 0.07) + 0.07);
@@ -209,7 +214,9 @@ export class Plant extends GroundEnemy {
         this.spriteHeight = 87;
         this.width = this.spriteWidth * 1.2 * this.sizeModifier;
         this.height = this.spriteHeight * 1.2 * this.sizeModifier;
-        this.y -= this.height;
+        this.boundaryYPlus -= this.height;
+        this.boundaryYMinus -= this.height;
+        this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;
         this.maxFrame = 1;
         this.image = enemy_plant;
     }
@@ -228,7 +235,9 @@ export class Hand extends GroundEnemy {
         this.spriteHeight = 80;
         this.width = this.spriteWidth * 1.65 * this.sizeModifier;
         this.height = this.spriteHeight * 1.65 * this.sizeModifier;
-        this.y -= this.height;
+        this.boundaryYPlus -= this.height;
+        this.boundaryYMinus -= this.height;
+        this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;
         this.maxFrame = 7;
         this.image = enemy_hand;
     }

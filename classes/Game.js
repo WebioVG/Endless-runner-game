@@ -33,7 +33,7 @@ export default class Game {
         this.maxSpeed = 3;
         this.maxParticles = 200;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant'];
-        this.enemyInterval = 1000; // one enemy every enemyInterval ms
+        this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value); // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 0;
         this.maxTime = 60000;

@@ -92,7 +92,7 @@ export default class Game {
      * Adds a new random enemy to the game.
      */
     #addNewEnemy() {
-        const randomEnemy = this.enemyTypes[Math.round(Math.random() * this.enemyTypes.length)];
+        const randomEnemy = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
         if (randomEnemy === 'fly') this.enemies.push(new Fly(this));
         else if (randomEnemy === 'ghost') this.enemies.push(new Ghost(this));
         else if (randomEnemy === 'worm') this.enemies.push(new Worm(this));

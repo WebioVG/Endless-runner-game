@@ -3,7 +3,7 @@ import InputHandler from "./Input.js";
 import Background from "./Background.js";
 import Player from "./player.js";
 import { UI } from "./UI.js";
-import { BigZombie } from "./Event.js";
+import { BigZombie, MassiveAttack } from "./Event.js";
 
 export default class Game {
     constructor(ctx, width, height) {
@@ -34,8 +34,8 @@ export default class Game {
         this.speed = 0;
         this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
         this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
-        this.eventTypes = ['bigZombie'];
-        this.eventInterval = 60000;
+        this.eventTypes = ['bigZombie', 'massiveAttack'];
+        this.eventInterval = 30000;
         this.eventTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand', 'zombie', 'bat1'];
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
@@ -58,7 +58,7 @@ export default class Game {
         // Enemies
         this.enemies = this.enemies.filter(object => !object.markedForDeletion);
         if (this.enemyTimer < this.enemyInterval) this.enemyTimer+= deltaTime;
-        else { this.#addNewEnemy(); this.enemyTimer = 0; };
+        else { this.addNewEnemy(); this.enemyTimer = 0; };
         this.enemies.forEach(object => object.update(deltaTime));
 
         // Player
@@ -95,7 +95,7 @@ export default class Game {
     /**
      * Adds a new random enemy to the game.
      */
-    #addNewEnemy() {
+    addNewEnemy() {
         const randomEnemy = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
         if (randomEnemy === 'fly') this.enemies.push(new Fly(this));
         else if (randomEnemy === 'bat1') this.enemies.push(new Bat1(this));
@@ -119,6 +119,11 @@ export default class Game {
     #addNewEvent() {
         const randomEvent = this.eventTypes[Math.floor(Math.random() * this.eventTypes.length)];
         if (randomEvent === 'bigZombie') this.event = new BigZombie(this);
+        else if (randomEvent === 'massiveAttack') this.event = new MassiveAttack(this);
+
+        // @debugger: add a specific event
+        // this.event = new MassiveAttack(this);
+
         this.event.enter();
     }
 }

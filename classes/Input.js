@@ -50,9 +50,6 @@ export default class InputHandler {
         document.getElementById('winningScoreInput').addEventListener('change', e => {
             this.game.winningScore = parseInt(e.target.value);
         })
-        document.getElementById('maxTimeInput').addEventListener('change', e => {
-            this.game.maxTime = parseInt(e.target.value);
-        })
         document.getElementById('livesInput').addEventListener('change', e => {
             this.game.player.lives = parseInt(e.target.value);
         })

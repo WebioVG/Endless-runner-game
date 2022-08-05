@@ -59,6 +59,9 @@ export default class InputHandler {
         document.getElementById('enemyIntervalInput').addEventListener('change', e => {
             this.game.enemyInterval = parseInt(e.target.value);
         })
+        document.getElementById('eventIntervalInput').addEventListener('change', e => {
+            this.game.eventInterval = parseInt(e.target.value);
+        })
         document.getElementById('maxParticlesInput').addEventListener('change', e => {
             this.game.maxParticles = parseInt(e.target.value);
         })

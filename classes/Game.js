@@ -35,7 +35,7 @@ export default class Game {
         this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
         this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
         this.eventTypes = ['bigZombie', 'massiveAttack'];
-        this.eventInterval = 30000;
+        this.eventInterval = parseInt(document.getElementById('eventIntervalInput').value) ?? 30000;
         this.eventTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand', 'zombie', 'bat1'];
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms

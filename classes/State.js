@@ -4,11 +4,12 @@ const states = {
     SITTING: 0,
     RUNNING: 1,
     JUMPING: 2,
-    FALLING: 3,
+    LOWERING: 3,
     ROLLING: 4,
     DIVING: 5,
     HIT: 6,
-    IDLE: 7
+    IDLE: 7,
+    FALLING: 8
 }
 
 class State {
@@ -77,15 +78,15 @@ export class Jumping extends State {
     }
 
     handleInput(input) {       
-        if (this.game.player.vy > this.game.player.weight) this.game.player.setState(states.FALLING, 1);
+        if (this.game.player.vy > this.game.player.weight) this.game.player.setState(states.LOWERING, 1);
         else if (input.includes('Enter') && this.game.player.energy > 0) this.game.player.setState(states.ROLLING, 2);
         else if (this.game.player.tryMovingTo(input, 'down')) this.game.player.setState(states.DIVING, 0);
     }
 }
 
-export class Falling extends State {
+export class Lowering extends State {
     constructor(game) {
-        super('FALLING', game);
+        super('LOWERING', game);
     }
 
     enter() {
@@ -124,7 +125,7 @@ export class Rolling extends State {
         if (this.game.player.energy <= 0) this.game.player.setState(states.RUNNING, 1);
         else if (this.stateTimer % this.rollingLength === 0) this.game.player.setState(states.RUNNING, 1);
         else if (!input.includes('Enter') && this.game.player.onGround()) this.game.player.setState(states.RUNNING, 1);
-        else if (!input.includes('Enter') && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
+        else if (!input.includes('Enter') && !this.game.player.onGround()) this.game.player.setState(states.LOWERING, 1);
         else if (!input.includes('Enter') && this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.vy -= this.rollingJumpHeight;
         else if (this.game.player.tryMovingTo(input, 'down') && !this.game.player.onGround()) this.game.player.setState(states.DIVING, 0);
     }
@@ -169,8 +170,7 @@ export class Hit extends State {
     }
 
     handleInput(input) {        
-        if (this.game.player.frameX >= this.game.player.maxFrame && this.game.player.onGround()) this.game.player.setState(states.IDLE, 1);
-        else if (this.game.player.frameX >= this.game.player.maxFrame && !this.game.player.onGround()) this.game.player.setState(states.FALLING, 1);
+        if (this.game.player.frameX >= this.game.player.maxFrame) this.game.player.setState(states.IDLE, 1);
     }
 }
 
@@ -193,5 +193,22 @@ export class Idle extends State {
         else if (this.game.player.tryMovingTo(input, 'up') && this.game.player.onGround()) this.game.player.setState(states.JUMPING, 1);
         else if (this.game.player.tryMovingTo(input, 'down') && this.game.player.onGround()) this.game.player.setState(states.SITTING, 0);
         else if (input.includes('Enter') && this.stateTimer >= this.game.player.allowRollingEvery) this.game.player.setState(states.ROLLING, 2);
+    }
+}
+
+export class Falling extends State {
+    constructor(game) {
+        super('FALLING', game);
+    }
+
+    enter() {
+        this.game.player.frameX = 0;
+        this.game.player.maxFrame = 11;
+        this.game.player.frameY = 8;
+        this.stateTimer = 0;
+    }
+
+    handleInput(input) {
+        if (this.game.player.frameX >= this.game.player.maxFrame) this.game.player.setState(states.IDLE, 1);
     }
 }

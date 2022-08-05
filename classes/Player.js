@@ -1,6 +1,6 @@
 import { CollisionAnimation } from "./CollisionAnimation.js";
 import { FloatingMessage } from "./FloatingMessage.js";
-import { Diving, Falling, Hit, Idle, Jumping, Rolling, Running, Sitting } from "./State.js";
+import { Diving, Lowering, Hit, Idle, Jumping, Rolling, Running, Sitting, Falling } from "./State.js";
 
 export default class Player {
     constructor(game) {
@@ -20,7 +20,7 @@ export default class Player {
         this.frameTimer = 0;
         this.speed = 0;
         this.maxSpeed = 5;
-        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Falling(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game), new Idle(this.game) ];
+        this.states = [ new Sitting(this.game), new Running(this.game), new Jumping(this.game), new Lowering(this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game), new Idle(this.game), new Falling(this.game) ];
         this.currentState = null;
         this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
         this.energy = parseInt(document.getElementById('energyInput').value) ?? 5;
@@ -135,10 +135,12 @@ export default class Player {
     }
 
     /**
-     * Sets the player state to hit, decreases its lives number and sets game over if the player is out of lives.
+     * Sets the player state to hit or falling, decreases its lives number and sets game over if the player is out of lives.
      */
     #handleFailure() {
-        this.setState(6, 0);
+        if (this.game.player.onGround()) this.setState(6, 0);
+        else this.setState(8, 0);
+
         this.game.player.lives--;
         if (this.game.player.lives <= 0) this.game.gameOver = true;
     }

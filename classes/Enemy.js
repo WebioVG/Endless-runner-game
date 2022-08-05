@@ -190,7 +190,7 @@ export class Zombie extends GroundEnemy {
         this.y -= this.height;
         this.maxFrame = 7;
         this.image = enemy_zombie;
-        this.vx = Math.random() * (0.13 - 0.03) + 0.05;
+        this.vx = (Math.random() * (0.13 - 0.07) + 0.07);
     }
 
     update(deltaTime) {

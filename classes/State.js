@@ -167,10 +167,14 @@ export class Hit extends State {
         this.game.player.maxFrame = 10;
         this.game.player.frameY = 4;
         this.stateTimer = 0;
+        this.game.player.isInvicible = true;
     }
 
     handleInput(input) {        
-        if (this.game.player.frameX >= this.game.player.maxFrame) this.game.player.setState(states.IDLE, 1);
+        if (this.game.player.frameX >= this.game.player.maxFrame) {
+            this.game.player.setState(states.IDLE, 1);
+            this.game.player.isInvicible = false;
+        }
     }
 }
 
@@ -206,9 +210,13 @@ export class Falling extends State {
         this.game.player.maxFrame = 11;
         this.game.player.frameY = 8;
         this.stateTimer = 0;
+        this.game.player.isInvicible = true;
     }
-
+    
     handleInput(input) {
-        if (this.game.player.frameX >= this.game.player.maxFrame) this.game.player.setState(states.IDLE, 1);
+        if (this.game.player.frameX >= this.game.player.maxFrame) {
+            this.game.player.setState(states.IDLE, 1);
+            this.game.player.isInvicible = false;
+        }
     }
 }

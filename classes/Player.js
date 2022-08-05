@@ -25,11 +25,12 @@ export default class Player {
         this.lives = parseInt(document.getElementById('livesInput').value) ?? 5;
         this.energy = parseInt(document.getElementById('energyInput').value) ?? 5;
         this.allowRollingEvery = 50;
+        this.isInvicible = false;
     }
 
     update(input, deltaTime) {
-        this.handleCollision();
         this.currentState.handleInput(input);
+        this.handleCollision();
 
         // Horizontal movement
         this.x += this.speed;
@@ -138,11 +139,12 @@ export default class Player {
      * Sets the player state to hit or falling, decreases its lives number and sets game over if the player is out of lives.
      */
     #handleFailure() {
-        if (this.game.player.onGround()) this.setState(6, 0);
-        else this.setState(8, 0);
-
-        this.game.player.lives--;
+        if (!this.isInvicible) this.game.player.lives--;
         if (this.game.player.lives <= 0) this.game.gameOver = true;
+
+        if (this.game.player.onGround()) this.setState(6, 0); // sets state to Hit
+        else this.setState(8, 0); // sets state to Falling
+        
     }
 
     /**

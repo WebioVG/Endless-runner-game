@@ -29,3 +29,14 @@ export class MassiveAttack extends Event {
         }
     }
 }
+
+export class IncreaseEnemyNumber extends Event {
+    constructor(game) {
+        super(game);
+        this.enemiesNumberMofidier = (Math.random() * (1.5 - 1.2) + 1.2).toFixed(1);
+    }
+
+    enter() {
+        this.game.enemyInterval = Math.round(this.game.enemyInterval / this.enemiesNumberMofidier);
+    }
+}

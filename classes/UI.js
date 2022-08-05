@@ -22,15 +22,7 @@ export class UI {
 
         // Timer
         this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
-        this.game.ctx.fillText(`Time left: ${(this.game.timeLeft * 0.001).toFixed(1)}s`, 20, 80);
-
-        // Debug
-        if (this.game.debug) {
-            this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
-            this.game.ctx.fillText(`Current time: ${(this.game.time * 0.001).toFixed(1)}s`, 200, 50);
-            this.game.ctx.font = `${this.fontSize * 0.8}px ${this.fontFamily}`;
-            this.game.ctx.fillText(`Max time: ${(this.game.maxTime * 0.001).toFixed(1)}s`, 200, 80);
-        }
+        this.game.ctx.fillText(`Time: ${(this.game.time * 0.001).toFixed(1)}s`, 20, 80);
 
         // Lives
         for (let i = 0; i < this.game.player.lives; i++) {
@@ -47,10 +39,11 @@ export class UI {
             this.game.ctx.font = `${this.fontSize * 2}px ${this.fontFamily}`;
             
             // Game over message
-            if (this.game.score >= this.game.winningScore && this.game.player.lives > 0) {
+            if (this.game.score >= this.game.winningScore) {
                 this.game.ctx.fillText('You won!', this.game.width * 0.5, this.game.height * 0.5 - 20);
                 this.game.ctx.font = `${this.fontSize * 0.7}px ${this.fontFamily}`;
-                this.game.ctx.fillText('Night creatures went home!', this.game.width * 0.5, this.game.height * 0.5 + 20);
+                this.game.ctx.fillText('Night creatures went home', this.game.width * 0.5, this.game.height * 0.5 + 20);
+                this.game.ctx.fillText(`after you eliminated ${this.game.score} of them!`, this.game.width * 0.5, this.game.height * 0.5 + 45);
             } else {
                 this.game.ctx.fillText('Game over', this.game.width * 0.5, this.game.height * 0.5);
             }

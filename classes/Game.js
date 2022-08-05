@@ -36,8 +36,6 @@ export default class Game {
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 0;
-        this.maxTime = parseInt(document.getElementById('maxTimeInput').value) ?? 60000;
-        this.timeLeft = this.maxTime - this.time;
         this.winningScore = parseInt(document.getElementById('winningScoreInput').value) ?? 35;
         this.gameOver = false;
 
@@ -48,9 +46,6 @@ export default class Game {
     update(deltaTime) {
         // Time
         this.time += deltaTime;
-        if (this.maxTime - this.time > deltaTime) this.timeLeft = this.maxTime - this.time - deltaTime;
-        else this.timeLeft = 0;
-        if (this.time > this.maxTime) this.gameOver = true;
 
         // Background
         this.background.update();

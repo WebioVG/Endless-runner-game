@@ -7,9 +7,6 @@ window.addEventListener('load', () => {
     // Initialize parameters //
     ///////////////////////////
 
-    // Get HTML elements
-    const playButton = document.getElementById('playButton');
-
     // Canvas settings
     const canvas = document.querySelector('#canvas1');
     const ctx = canvas.getContext('2d');

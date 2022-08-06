@@ -1,5 +1,5 @@
 import { CollisionAnimation } from "./CollisionAnimation.js";
-import { BigZombie } from "./Enemy.js";
+import { BigSpider, BigZombie } from "./Enemy.js";
 import { FloatingMessage } from "./FloatingMessage.js";
 import { Diving, Lowering, Hit, Idle, Jumping, Rolling, Running, Sitting, Falling, Dizzy } from "./State.js";
 
@@ -147,7 +147,7 @@ export default class Player {
      */
     #handleFailure(enemyColliding) {
         if (!this.isInvicible) {
-            if (enemyColliding instanceof BigZombie) this.game.player.lives -= 3;
+            if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) this.game.player.lives -= 3;
             else this.game.player.lives--;
         }
         if (this.game.player.lives <= 0) this.game.gameOver = true;

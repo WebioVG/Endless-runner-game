@@ -1,4 +1,4 @@
-import { BigZombie } from "./Enemy.js";
+import { BigSpider, BigZombie } from "./Enemy.js";
 
 class Event {
     constructor(game) {
@@ -42,5 +42,18 @@ export class IncreaseEnemyNumber extends Event {
 
     enter() {
         this.game.enemyInterval = Math.round(this.game.enemyInterval / this.enemiesNumberMofidier);
+    }
+}
+
+export class BigSpiderSpawn extends Event {
+    constructor(game) {
+        super(game);
+        this.messageUI = 'Wow! What\'s that? ...';
+    }
+
+    enter() {
+        console.log(this.game.enemies);
+        this.game.enemies.push(new BigSpider(this.game));
+        console.log(this.game.enemies);
     }
 }

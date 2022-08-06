@@ -281,24 +281,8 @@ export class Hand extends GroundEnemy {
 class ClimbingEnemy extends Enemy {
     constructor(game){
         super(game);
-    }
-}
-
-export class Spider extends ClimbingEnemy {
-    constructor(game) {
-        super(game);
-        this.spriteWidth = 310;
-        this.spriteHeight = 175;
-        this.width = this.spriteWidth * 0.35 * this.sizeModifier;
-        this.height = this.spriteHeight * 0.35 * this.sizeModifier;
         this.x = Math.random() * this.game.width;
-        this.y = Math.random() * (-this.height + 100) - this.height;
-        this.image = enemy_spider;
         this.vx = 0;
-        this.vy = Math.random() * 0.1 + 0.1;
-        this.maxLengthMinimum = this.game.height * 0.25;
-        this.maxLengthMaximum = this.game.height * 0.6;
-        this.maxLength = Math.random() * (this.maxLengthMaximum - this.maxLengthMinimum) + this.maxLengthMinimum;
     }
 
     update(deltaTime) {
@@ -320,5 +304,39 @@ export class Spider extends ClimbingEnemy {
         this.game.ctx.stroke();
 
         super.draw(this.game.ctx);
+    }
+}
+
+export class Spider extends ClimbingEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 310;
+        this.spriteHeight = 175;
+        this.width = this.spriteWidth * 0.35 * this.sizeModifier;
+        this.height = this.spriteHeight * 0.35 * this.sizeModifier;
+        this.maxFrame = 5;
+        this.image = enemy_spider;
+        this.y = -this.height;
+        this.vy = Math.random() * 0.1 + 0.1;
+        this.maxLengthMinimum = this.game.height * 0.25;
+        this.maxLengthMaximum = this.game.height * 0.6;
+        this.maxLength = Math.random() * (this.maxLengthMaximum - this.maxLengthMinimum) + this.maxLengthMinimum;
+    }
+}
+
+export class BigSpider extends ClimbingEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 120;
+        this.spriteHeight = 144;
+        this.width = this.spriteWidth * 1.5 * this.sizeModifier;
+        this.height = this.spriteHeight * 1.5 * this.sizeModifier;
+        this.maxFrame = 5;
+        this.image = enemy_spider_big;
+        this.y = -this.height;
+        this.vy = Math.random() * 0.1 + 0.1;
+        this.maxLengthMinimum = this.game.height * 0.15;
+        this.maxLengthMaximum = this.game.height * 0.4;
+        this.maxLength = Math.random() * (this.maxLengthMaximum - this.maxLengthMinimum) + this.maxLengthMinimum;
     }
 }

@@ -3,7 +3,7 @@ import InputHandler from "./Input.js";
 import Background from "./Background.js";
 import Player from "./player.js";
 import { UI } from "./UI.js";
-import { BigZombieSpawn, IncreaseEnemyNumber, MassiveAttack } from "./Event.js";
+import { BigSpiderSpawn, BigZombieSpawn, IncreaseEnemyNumber, MassiveAttack } from "./Event.js";
 
 export default class Game {
     constructor(ctx, width, height) {
@@ -34,7 +34,7 @@ export default class Game {
         this.speed = 0;
         this.maxSpeed = parseInt(document.getElementById('maxSpeedInput').value) ?? 3;
         this.maxParticles = parseInt(document.getElementById('maxParticlesInput').value) ?? 100;
-        this.eventTypes = ['bigZombie', 'massiveAttack', 'increaseEnemyNumber'];
+        this.eventTypes = ['bigZombie', 'massiveAttack', 'increaseEnemyNumber', 'bigSpider'];
         this.eventInterval = parseInt(document.getElementById('eventIntervalInput').value) ?? 30000;
         this.eventTimer = 0;
         this.enemyTypes = ['ghost', 'fly', 'worm', 'spider', 'plant', 'hand', 'zombie', 'bat1'];
@@ -107,7 +107,7 @@ export default class Game {
         else if (randomEnemy === 'hand' && this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Hand(this));
 
         // @debugger: add only one enemy type
-        // if (this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Bat1(this));
+        // if (this.speed > 0 && Math.random() * 0.5) this.enemies.push(new Spider(this));
         // console.log(this.enemies);
 
         this.enemies.sort((a, b) => { return (a.y - b.y) });
@@ -121,9 +121,10 @@ export default class Game {
         if (randomEvent === 'bigZombie') this.event = new BigZombieSpawn(this);
         else if (randomEvent === 'massiveAttack') this.event = new MassiveAttack(this);
         else if (randomEvent === 'increaseEnemyNumber') this.event = new IncreaseEnemyNumber(this);
+        else if (randomEvent === 'bigSpider') this.event = new BigSpiderSpawn(this);
 
         // @debugger: add a specific event
-        // this.event = new BigZombieSpawn(this);
+        // this.event = new BigSpiderSpawn(this);
 
         this.event.enter();
     }

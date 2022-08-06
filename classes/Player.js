@@ -126,7 +126,7 @@ export default class Player {
      */
     #handleSuccess(enemyColliding) {
         // Score
-        if (enemyColliding instanceof BigZombie) {
+        if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) {
             this.game.score += 3;
             this.game.floatingMessages.push(new FloatingMessage('+3', enemyColliding.x, enemyColliding.y, 120, 50));
         }
@@ -137,8 +137,13 @@ export default class Player {
         
         // Energy
         if (Math.random() > 0.85) {
-            this.game.player.energy++;
-            this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 150));
+            if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) {
+                this.game.player.energy += 3;
+                this.game.floatingMessages.push(new FloatingMessage('+3', enemyColliding.x, enemyColliding.y, 120, 150));
+            } else {
+                this.game.player.energy++;
+                this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 150));
+            }
         }
     }
 

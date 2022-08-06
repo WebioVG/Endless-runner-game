@@ -3,7 +3,7 @@ import InputHandler from "./Input.js";
 import Background from "./Background.js";
 import Player from "./player.js";
 import { UI } from "./UI.js";
-import { BigZombie, IncreaseEnemyNumber, MassiveAttack } from "./Event.js";
+import { BigZombieSpawn, IncreaseEnemyNumber, MassiveAttack } from "./Event.js";
 
 export default class Game {
     constructor(ctx, width, height) {
@@ -41,7 +41,7 @@ export default class Game {
         this.enemyInterval = parseInt(document.getElementById('enemyIntervalInput').value) ?? 1000; // one enemy every enemyInterval ms
         this.enemyTimer = 0;
         this.time = 1;
-        this.winningScore = parseInt(document.getElementById('winningScoreInput').value) ?? 35;
+        this.winningScore = parseInt(document.getElementById('winningScoreInput').value) ?? 50;
         this.gameOver = false;
 
         // Outputs
@@ -118,12 +118,12 @@ export default class Game {
      */
     #addNewEvent() {
         const randomEvent = this.eventTypes[Math.floor(Math.random() * this.eventTypes.length)];
-        if (randomEvent === 'bigZombie') this.event = new BigZombie(this);
+        if (randomEvent === 'bigZombie') this.event = new BigZombieSpawn(this);
         else if (randomEvent === 'massiveAttack') this.event = new MassiveAttack(this);
         else if (randomEvent === 'increaseEnemyNumber') this.event = new IncreaseEnemyNumber(this);
 
         // @debugger: add a specific event
-        // this.event = new IncreaseEnemyNumber(this);
+        // this.event = new BigZombieSpawn(this);
 
         this.event.enter();
     }

@@ -184,13 +184,37 @@ export class Worm extends GroundEnemy {
 }
 
 export class Zombie extends GroundEnemy {
-    constructor(game, sizeModifier = (Math.random() * (1.05 - 0.95) + 0.95)) {
+    constructor(game) {
         super(game);
-        this.sizeModifier = sizeModifier;
         this.spriteWidth = 292;
         this.spriteHeight = 410;
         this.width = this.spriteWidth * 0.3 * this.sizeModifier;
         this.height = this.spriteHeight * 0.3 * this.sizeModifier;
+        this.boundaryYPlus -= this.height;
+        this.boundaryYMinus -= this.height;
+        this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;
+        this.maxFrame = 7;
+        this.image = enemy_zombie;
+        this.vx = (Math.random() * (0.13 - 0.07) + 0.07);
+    }
+
+    update(deltaTime) {
+        // Horizontal movement
+        if (this.game.speed >= 1) this.x -= this.vx * deltaTime * this.game.speed;
+        else this.x -= this.vx * deltaTime;
+        
+        super.update(deltaTime);
+    }
+}
+
+export class BigZombie extends GroundEnemy {
+    constructor(game) {
+        super(game);
+        this.spriteWidth = 292;
+        this.spriteHeight = 410;
+        this.sizeBoost = Math.random() * (2.5 - 2) + 2;
+        this.width = this.spriteWidth * 0.3 * this.sizeModifier * this.sizeBoost;
+        this.height = this.spriteHeight * 0.3 * this.sizeModifier * this.sizeBoost;
         this.boundaryYPlus -= this.height;
         this.boundaryYMinus -= this.height;
         this.y = Math.random() * (this.boundaryYPlus - this.boundaryYMinus) + this.boundaryYMinus;

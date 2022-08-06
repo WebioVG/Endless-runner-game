@@ -1,4 +1,5 @@
 import { CollisionAnimation } from "./CollisionAnimation.js";
+import { BigZombie } from "./Enemy.js";
 import { FloatingMessage } from "./FloatingMessage.js";
 import { Diving, Lowering, Hit, Idle, Jumping, Rolling, Running, Sitting, Falling, Dizzy } from "./State.js";
 
@@ -117,7 +118,7 @@ export default class Player {
         this.game.collisions.push(new CollisionAnimation(this.game, enemyColliding.x + enemyColliding.width * 0.5, enemyColliding.y + enemyColliding.height * 0.5))    
         // Collision outputs
         if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.#handleSuccess(enemyColliding);
-        else this.#handleFailure();
+        else this.#handleFailure(enemyColliding);
     }
 
     /**
@@ -125,8 +126,14 @@ export default class Player {
      */
     #handleSuccess(enemyColliding) {
         // Score
-        this.game.score++;
-        this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 50));
+        if (enemyColliding instanceof BigZombie) {
+            this.game.score += 3;
+            this.game.floatingMessages.push(new FloatingMessage('+3', enemyColliding.x, enemyColliding.y, 120, 50));
+        }
+        else {
+            this.game.score++;
+            this.game.floatingMessages.push(new FloatingMessage('+1', enemyColliding.x, enemyColliding.y, 120, 50));
+        }
         
         // Energy
         if (Math.random() > 0.85) {
@@ -138,8 +145,11 @@ export default class Player {
     /**
      * Sets the player state to hit or falling, decreases its lives number and sets game over if the player is out of lives.
      */
-    #handleFailure() {
-        if (!this.isInvicible) this.game.player.lives--;
+    #handleFailure(enemyColliding) {
+        if (!this.isInvicible) {
+            if (enemyColliding instanceof BigZombie) this.game.player.lives -= 3;
+            else this.game.player.lives--;
+        }
         if (this.game.player.lives <= 0) this.game.gameOver = true;
 
         if (this.game.player.onGround()) this.setState(6, 0); // sets state to Hit

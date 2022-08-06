@@ -1,4 +1,4 @@
-import { Zombie } from "./Enemy.js";
+import { BigZombie } from "./Enemy.js";
 
 class Event {
     constructor(game) {
@@ -6,14 +6,13 @@ class Event {
     }
 }
 
-export class BigZombie extends Event {
+export class BigZombieSpawn extends Event {
     constructor(game) {
         super(game);
-        this.sizeModifier = Math.random() * (2.5 - 2) + 2;
     }
 
     enter() {
-        this.game.enemies.push(new Zombie(this.game, this.sizeModifier));
+        this.game.enemies.push(new BigZombie(this.game));
     }
 }
 

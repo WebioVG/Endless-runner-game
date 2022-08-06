@@ -35,6 +35,11 @@ export class UI {
         
         // Winning score
         this.game.ctx.fillText(`Winning score: ${this.game.winningScore}`, this.game.width - 200, 50);
+        
+        // Event message
+        // if (this.game.event !== null) console.log(this.game.eventTimer);
+        this.game.ctx.font = `${this.fontSize * 1.2}px ${this.fontFamily}`;
+        if (this.game.event !== null && this.game.eventTimer <= this.game.event.duration) this.game.ctx.fillText(`${this.game.event.messageUI}`, 200, 80);
 
         // Game Over
         if (this.game.gameOver) {

@@ -3,12 +3,15 @@ import { BigZombie } from "./Enemy.js";
 class Event {
     constructor(game) {
         this.game = game;
+        this.duration = 3000;
+        this.messageUI = '';
     }
 }
 
 export class BigZombieSpawn extends Event {
     constructor(game) {
         super(game);
+        this.messageUI = 'Big zombie noticed in the forest...';
     }
 
     enter() {
@@ -20,6 +23,7 @@ export class MassiveAttack extends Event {
     constructor(game) {
         super(game);
         this.enemiesNumber = Math.round(Math.random() * (12 - 8) + 8);
+        this.messageUI = 'They gathered, be careful!';
     }
 
     enter() {
@@ -33,6 +37,7 @@ export class IncreaseEnemyNumber extends Event {
     constructor(game) {
         super(game);
         this.enemiesNumberMofidier = (Math.random() * (1.5 - 1.2) + 1.2).toFixed(1);
+        this.messageUI = 'Seems like more enemies are spawning.';
     }
 
     enter() {

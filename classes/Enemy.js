@@ -281,7 +281,6 @@ export class Hand extends GroundEnemy {
 class ClimbingEnemy extends Enemy {
     constructor(game){
         super(game);
-        this.x = Math.random() * this.game.width;
         this.vx = 0;
     }
 
@@ -316,6 +315,7 @@ export class Spider extends ClimbingEnemy {
         this.height = this.spriteHeight * 0.35 * this.sizeModifier;
         this.maxFrame = 5;
         this.image = enemy_spider;
+        this.x = Math.random() * ((this.game.width - this.width) - this.width) + this.width;
         this.y = -this.height;
         this.vy = Math.random() * 0.1 + 0.1;
         this.maxLengthMinimum = this.game.height * 0.25;
@@ -333,6 +333,7 @@ export class BigSpider extends ClimbingEnemy {
         this.height = this.spriteHeight * 1.5 * this.sizeModifier;
         this.maxFrame = 5;
         this.image = enemy_spider_big;
+        this.x = Math.random() * ((this.game.width - this.width) - this.width) + this.width;
         this.y = -this.height;
         this.vy = Math.random() * 0.1 + 0.1;
         this.maxLengthMinimum = this.game.height * 0.15;

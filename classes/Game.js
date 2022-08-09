@@ -20,6 +20,19 @@ export default class Game {
         this.player.currentState = this.player.states[0];
         this.player.currentState.enter();
         this.input = new InputHandler(this);
+        this.sounds = {
+            alert: document.getElementById('alert'),
+            ambiance: document.getElementById('ambiance'),
+            bigZombieWalk: document.getElementById('bigZombieWalk'),
+            bite: document.getElementById('bite'),
+            drop: document.getElementById('drop'),
+            explosion: document.getElementById('explosion'),
+            fail: document.getElementById('fail'),
+            health: document.getElementById('health'),
+            hurtPlayerBig: document.getElementById('hurtPlayerBig'),
+            hurtPlayer: document.getElementById('hurtPlayer'),
+            roll: document.getElementById('roll'),
+        }
         this.UI = new UI(this);
 
         // Objects in the current game
@@ -46,6 +59,10 @@ export default class Game {
 
         // Outputs
         this.score = 0;
+    }
+
+    enter() {
+        this.sounds.ambiance.play();
     }
 
     update(deltaTime) {
@@ -117,6 +134,10 @@ export default class Game {
      * Adds a new event object to the game.
      */
     #addNewEvent() {
+        console.log(this.sounds);
+        console.log(this.sounds.alert);
+        this.sounds.alert.play();
+
         const randomEvent = this.eventTypes[Math.floor(Math.random() * this.eventTypes.length)];
         if (randomEvent === 'bigZombie') this.event = new BigZombieSpawn(this);
         else if (randomEvent === 'massiveAttack') this.event = new MassiveAttack(this);

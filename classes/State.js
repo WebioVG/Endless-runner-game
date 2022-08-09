@@ -117,6 +117,7 @@ export class Rolling extends State {
         this.stateTimer = 0;
 
         this.game.player.energy--;
+        this.game.sounds.roll.play();
     }
 
     handleInput(input) {
@@ -149,6 +150,7 @@ export class Diving extends State {
     handleInput(input) {        
         this.game.particles.unshift(new Fire(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height * 0.5));
         if (this.game.player.onGround()) {
+            this.game.sounds.explosion.play();
             this.game.player.setState(states.RUNNING, 1);
             for (let i = 0; i < 30; i++) {
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x + this.game.player.width * 0.5, this.game.player.y + this.game.player.height));

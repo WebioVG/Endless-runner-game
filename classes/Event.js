@@ -16,6 +16,7 @@ export class BigZombieSpawn extends Event {
 
     enter() {
         this.game.enemies.push(new BigZombie(this.game));
+        this.game.sounds.bigZombieWalk.play();
     }
 }
 
@@ -52,8 +53,6 @@ export class BigSpiderSpawn extends Event {
     }
 
     enter() {
-        console.log(this.game.enemies);
         this.game.enemies.push(new BigSpider(this.game));
-        console.log(this.game.enemies);
     }
 }

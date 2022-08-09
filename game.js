@@ -17,6 +17,7 @@ window.addEventListener('load', () => {
 
     // Game
     let game = new Game(ctx, CANVAS_WIDTH, CANVAS_HEIGHT);
+    game.enter();
 
     ///////////////
     // FUNCTIONS //

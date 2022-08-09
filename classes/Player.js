@@ -119,6 +119,8 @@ export default class Player {
         // Collision outputs
         if (this.currentState instanceof Rolling || this.currentState instanceof Diving) this.#handleSuccess(enemyColliding);
         else this.#handleFailure(enemyColliding);
+
+        if (enemyColliding instanceof BigZombie) this.game.sounds.bigZombieWalk.pause();
     }
 
     /**
@@ -137,6 +139,7 @@ export default class Player {
         
         // Energy
         if (Math.random() > 0.85) {
+            this.game.sounds.drop.play();
             if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) {
                 this.game.player.energy += 3;
                 this.game.floatingMessages.push(new FloatingMessage('+3', enemyColliding.x, enemyColliding.y, 120, 150));
@@ -152,10 +155,21 @@ export default class Player {
      */
     #handleFailure(enemyColliding) {
         if (!this.isInvicible) {
-            if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) this.game.player.lives -= 3;
-            else this.game.player.lives--;
+            if (enemyColliding instanceof BigZombie || enemyColliding instanceof BigSpider) {
+                this.game.sounds.hurtPlayerBig.play();
+                this.game.player.lives -= 3;
+            }
+            else {
+                this.game.sounds.hurtPlayer.play();
+                this.game.player.lives--;
+            }
         }
-        if (this.game.player.lives <= 0) this.game.gameOver = true;
+        if (this.game.player.lives <= 0) {
+            this.game.gameOver = true;
+            this.game.sounds.ambiance.pause();
+
+            if (this.game.score < this.game.winningScore) this.game.sounds.fail.play();
+        }
 
         if (this.game.player.onGround()) this.setState(6, 0); // sets state to Hit
         else this.setState(8, 0); // sets state to Falling

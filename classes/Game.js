@@ -1,7 +1,7 @@
 import { Bat1, Fly, Ghost, Hand, Plant, Spider, Worm, Zombie } from "./Enemy.js";
 import InputHandler from "./Input.js";
 import Background from "./Background.js";
-import Player from "./player.js";
+import Player from "./Player.js";
 import { UI } from "./UI.js";
 import { BigSpiderSpawn, BigZombieSpawn, IncreaseEnemyNumber, MassiveAttack } from "./Event.js";
 
